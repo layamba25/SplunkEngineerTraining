@@ -11,4 +11,3 @@ jobs:
         chmod +x ./BashScripts/splunk_installer.sh
         sudo ./BashScripts/splunk_installer.sh
         curl -s -o /dev/null -w "%{http_code}" http://localhost:8000
-        sudo netstat -tuln | grep 8000
