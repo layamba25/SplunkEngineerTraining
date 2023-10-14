@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Install Splunk
-      run: powershell -File ../../PowerShell/splunk_installer.ps1
+      run: powershell -File ${{ github.workspace }}\PowerShell/splunk_installer.ps1
     
     - name: Test Splunk
       run: Test-NetConnection localhost -Port 8000
