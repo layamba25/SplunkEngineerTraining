@@ -10,4 +10,4 @@ jobs:
       run: |
         chmod +x ./BashScripts/splunk_installer.sh
         sudo ./BashScripts/splunk_installer.sh
-        curl -I "http://localhost:8000"
+        curl --insecure http://localhost:8000
