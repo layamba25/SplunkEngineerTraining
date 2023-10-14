@@ -9,7 +9,7 @@ jobs:
     - name: Test Splunk Installer
       run: |
         chmod +x ./BashScripts/splunk_installer.sh
-        ./BashScripts/splunk_installer.sh
+        sudo ./BashScripts/splunk_installer.sh
         /opt/splunk/bin/splunk start --accept-license --answer-yes --no-prompt
         /opt/splunk/bin/splunk status
         netstat -tuln | grep 8000
