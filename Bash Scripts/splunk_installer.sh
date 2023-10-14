@@ -17,7 +17,7 @@ wget -O /tmp/splunk.tgz https://download.splunk.com/products/splunk/releases/9.1
 # 3. Extract and install
 tar -xzvf /tmp/splunk.tgz -C /opt/
 
-# 4. Add Default Splunk Admin user and password
+# 4.0 Add Default Splunk Admin user and password
 echo "Adding default Splunk Admin user and password"
 
 cat > /opt/splunk/etc/system/local/user-seed.conf << 'EOF'
@@ -26,7 +26,13 @@ USERNAME = admin
 PASSWORD = P@ssw0RD123
 EOF
 
-# 4.1 Change ownership
+# 4.1 Disable disk usage warning
+cat > /opt/splunk/etc/system/local/server.conf << 'EOF'
+[diskUsage]
+minFreeSpace = 0
+EOF
+
+# 4.2 Change ownership
 echo "Changing ownership of /opt/splunk to splunk_user"
 sudo chown -R splunk_user:splunk_user /opt/splunk
 # sleep 2s
