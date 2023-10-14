@@ -8,7 +8,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Test Splunk Installer
       run: |
-        chmod +x ./BashScript/splunk_installer.sh
+        chmod +x ./BashScripts/splunk_installer.sh
         sudo /opt/splunk/bin/splunk start --accept-license --answer-yes --no-prompt
         sudo /opt/splunk/bin/splunk status
         sudo netstat -tuln | grep 8000
