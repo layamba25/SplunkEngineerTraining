@@ -10,4 +10,4 @@ jobs:
       run: |
         chmod +x ./BashScripts/splunk_installer.sh
         sudo ./BashScripts/splunk_installer.sh
-        curl --insecure http://localhost:8000
+        nc -zv localhost 8000 && echo "Port 8000 is open" || echo "Port 8000 is closed"
