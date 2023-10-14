@@ -10,4 +10,4 @@ jobs:
       run: |
         chmod +x ./BashScripts/splunk_installer.sh
         sudo ./BashScripts/splunk_installer.sh
-        curl -s -o /dev/null -w "%{http_code}" http://localhost:8000
+        curl -X "http://localhost:8000"
