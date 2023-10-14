@@ -1,0 +1,15 @@
+name: Test Splunk Installer - Linux
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Test Splunk Installer
+      run: |
+        chmod +x splunk_installer.sh
+        ./splunk_installer.sh --version
+        sudo /opt/splunk/bin/splunk start --accept-license --answer-yes --no-prompt
+        sudo /opt/splunk/bin/splunk status
+        sudo netstat -tuln | grep 8000

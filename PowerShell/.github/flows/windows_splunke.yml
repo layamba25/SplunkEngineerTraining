@@ -1,0 +1,21 @@
+name: Windows Splunk Installer
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Splunk
+      run: powershell -File splunk_installer.ps1
+    
+    - name: Test Splunk
+      run: Test-NetConnection localhost -Port 8000
