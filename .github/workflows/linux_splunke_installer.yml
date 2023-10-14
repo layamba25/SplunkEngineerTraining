@@ -10,6 +10,5 @@ jobs:
       run: |
         chmod +x ./BashScripts/splunk_installer.sh
         sudo ./BashScripts/splunk_installer.sh
-        /opt/splunk/bin/splunk start --accept-license --answer-yes --no-prompt
-        /opt/splunk/bin/splunk status
+        curl -s -o /dev/null -w "%{http_code}" http://localhost:8000
         sudo netstat -tuln | grep 8000
