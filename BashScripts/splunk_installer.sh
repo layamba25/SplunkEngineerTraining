@@ -58,9 +58,10 @@ systemctl start Splunkd
 # Check Splunkd status
 sleep 5s
 echo "Checking Splunkd status"
-systemctl status Splunkd
-if [ $? -eq 0 ]; then
+# systemctl status Splunkd
+if systemctl status Splunkd | grep -q "active (running)"; then
     echo "Splunkd is running"
 else
     echo "Splunkd is not running"
+    exit 1
 fi

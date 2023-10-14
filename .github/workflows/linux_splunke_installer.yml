@@ -12,4 +12,4 @@ jobs:
         sudo ./BashScripts/splunk_installer.sh
         /opt/splunk/bin/splunk start --accept-license --answer-yes --no-prompt
         /opt/splunk/bin/splunk status
-        netstat -tuln | grep 8000
+        sudo netstat -tuln | grep 8000
