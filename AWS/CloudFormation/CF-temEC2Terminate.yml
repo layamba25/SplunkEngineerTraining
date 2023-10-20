@@ -1,0 +1,86 @@
+      
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Deploy a Lambda function to terminate EC2 instances with a specific tag at midnight'
+
+Resources:
+  ShutdownEC2InstancesRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: EC2TerminatePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: 'arn:aws:logs:*:*:*'
+              - Effect: Allow
+                Action: 'ec2:TerminateInstances'
+                Resource: '*'
+
+  TerminateEC2InstancesFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: TerminateEC2Instances
+      Handler: index.handler
+      Role: !GetAtt ShutdownEC2InstancesRole.Arn
+      Code:
+        ZipFile: |
+          import boto3
+
+          def handler(event, context):
+              ec2 = boto3.client('ec2')
+              
+              # Specify the tag key and value to filter instances
+              tag_key = 'YourTagKey'
+              tag_value = 'YourTagValue'
+              
+              filters = [
+                  {
+                      'Name': f'tag:{tag_key}',
+                      'Values': [tag_value]
+                  }
+              ]
+
+              response = ec2.describe_instances(Filters=filters)
+
+              instance_ids = []
+              for reservation in response['Reservations']:
+                  for instance in reservation['Instances']:
+                      instance_ids.append(instance['InstanceId'])
+
+              if instance_ids:
+                  ec2.terminate_instances(InstanceIds=instance_ids)
+                  print(f'Terminated instances: {instance_ids}')
+              else:
+                  print('No instances found with the specified tag.')
+
+      Runtime: python3.8
+      Timeout: 300 # 5 minutes
+
+  ScheduleRule:
+    Type: AWS::Events::Rule
+    Properties:
+      ScheduleExpression: 'cron(0 0 * * ? *)' # At midnight UTC
+      State: ENABLED
+      Targets:
+        - Id: TerminateEC2Instances
+          Arn: !GetAtt TerminateEC2InstancesFunction.Arn
+
+  PermissionForEventsToInvokeLambda:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref TerminateEC2InstancesFunction
+      Action: 'lambda:InvokeFunction'
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt ScheduleRule.Arn

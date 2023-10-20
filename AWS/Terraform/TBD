@@ -1,0 +1,27 @@
+- VPC
+    - Subnets
+        - Public Subnet 1
+            - Route Table
+            - Internet Gateway
+            - Security Group
+            - EC2 Instance (Splunk Search Head)
+        - Public Subnet 2
+            - Route Table
+            - Internet Gateway
+            - Security Group
+            - EC2 Instance (Splunk Search Head)
+        - Private Subnet 1
+            - Route Table
+            - NAT Gateway
+            - Security Group
+            - EC2 Instance (Splunk Indexer)
+        - Private Subnet 2
+            - Route Table
+            - NAT Gateway
+            - Security Group
+            - EC2 Instance (Splunk Indexer)
+    - Security Groups
+        - Splunk Search Head Security Group
+        - Splunk Indexer Security Group
+    - Internet Gateway
+    - NAT Gateway

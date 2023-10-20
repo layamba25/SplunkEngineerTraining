@@ -23,7 +23,7 @@ echo "###### Adding default Splunk Admin user and password ########"
 cat > /opt/splunk/etc/system/local/user-seed.conf << 'EOF'
 [user_info]
 USERNAME = admin
-PASSWORD = P@ssw0RD123
+PASSWORD = P@ssword123
 EOF
 
 # 4.1 Disable disk usage warning
