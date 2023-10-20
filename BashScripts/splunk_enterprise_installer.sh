@@ -6,6 +6,46 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
+# First configure the Linux host to meet the Splunk Enterprise system requirements
+# https://docs.splunk.com/Documentation/Splunk/8.1.2/Installation/Systemrequirements#System_requirements_for_Linux
+
+# Disable THP on boot
+echo "############ Disabling THP on boot #############"
+cat > /etc/systemd/system/disable-thp.service << 'EOF'
+[Unit]
+Description=Disable Transparent Huge Pages (THP)
+DefaultDependencies=no
+After=sysinit.target local-fs.target
+Before=splunk.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled && echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag"
+
+[Install]
+WantedBy=basic.target
+EOF
+
+# Update Ulimits
+echo "############ Updating Ulimits #############"
+cat > /etc/security/limits.d/99-splunk.conf << 'EOF'
+splunk_user soft nofile 64000
+splunk_user hard nofile 64000
+splunk_user soft nproc 20480
+splunk_user hard nproc 20480
+EOF
+
+# Update Kernel Parameters
+echo "############ Updating Kernel Parameters #############"
+cat > /etc/sysctl.d/99-splunk.conf << 'EOF'
+vm.max_map_count=262144
+EOF
+
+# Reload Systemd
+echo "############## Reloading Systemd ###############"
+systemctl daemon-reload
+
+############################### Splunk Enterprise Installation ###############################
 # 1. Create a splunk_user with sudo privileges and no password
 echo "###### Creating splunk_user with sudo privileges and no password ########"
 sudo useradd -m -s /bin/bash splunk_user
