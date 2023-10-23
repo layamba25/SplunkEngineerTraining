@@ -13,4 +13,4 @@ jobs:
       run: |
         chmod +x ./BashScripts/splunk_enterprise_installer.sh
         sudo ./BashScripts/splunk_enterprise_installer.sh
-        nc -zv localhost 8000 && echo "Port 8000 is open" || echo "Port 8000 is closed"
+        nc -zv 127.0.0.1 8000 && echo "Port 8000 is open" || echo "Port 8000 is closed"
