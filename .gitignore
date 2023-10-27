@@ -1,0 +1,10 @@
+# Ignore Terraform files
+*.tfstate
+*.tfstate.*
+*.tfplan
+.terraform/
+./AWS/Terraform/*/terraform.tfstate
+./AWS/Terraform/*/terraform.tfstate.backup
+./AWS/Terraform/*/terraform.tfvars
+./AWS/Terraform/*/terraform.tfvars.json
+./AWS/Terraform/*/.terraform/
