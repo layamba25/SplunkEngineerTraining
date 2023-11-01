@@ -123,14 +123,28 @@ resource "aws_instance" "splunk_instances" {
     #!/bin/bash
     echo "Setting hostname to: ${var.instance_tags[count.index].value}.${var.domain}"
     hostnamectl set-hostname ${var.instance_tags[count.index].value}.${var.domain}
-    useradd -m splunk_user && sudo usermod -aG sudo splunk_user && echo "splunk_user ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+    apt install git -y
+
+    #useradd -m splunk_user && sudo usermod -aG sudo splunk_user && echo "splunk_user ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
     
     # Generate SSH key pair for the splunk_user
     sudo -u splunk_user ssh-keygen -t rsa -b 4096 -C 'splunk_user@example.com' -f /home/splunk_user/.ssh/id_rsa -N ''
     cat /home/splunk_user/.ssh/id_rsa.pub >> /home/splunk_user/.ssh/authorized_keys
-
+    
+    # Add the ansible user's public key to the splunk_user's authorized_keys file
     echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDuMxFk4YOXIBL6LLsYPC01rdPgutJNhPQp5hTtW2OgFKCCYZ28UeDD+unzjlY53wZVG35nimoyVvIK+DlN0ZnvQsEFVbS8doIPCS2BYiVK0luBZpyvNgS5uMCIWKb1/FE644Tx6IBegeRR92+xjW8jWf43X7B5feneYoM80+GIsOCVv05xA1W4FRe0RJMIVsGOjnZ15TZWhWSdIC6/Wg/6PXm4rJwnPsulFTXUzgHaPcz3tumrSDEJJ4Tlhepe9dEKKa4ITWwy4fBLttIRB+vhvQTJa4RJwi3J+ZlhBXpUzfdbsYYGY7k50hbOU0+BNN17oiHNU9RNeRsQhlw3s1S+CMZ+IdsBIhJyDaawVkMxcfwshatX1G0Dg5MtA6LBr/7A3v3z3AEgJbs6Ew5TzMC4ykr8DOaVoYApJ0IpehfplbHAm3F9ZCScW9VgeCTDwcn0BI5KuqgBxLGYmVPQZgh2UuORUzp/XBFAFrK97hrB2/NyM0qS0DcbDl08YGeJCPE= ansible@ansible-master" >> /home/splunk_user/.ssh/authorized_keys
+    
+    # Install Splunk
+    git clone https://github.com/layamba25/SplunkEngineerTraining.git
+    cd SplunkEngineerTraining/Scripts/BashScripts
+    chmod +x *.sh
+    if [ "${var.instance_tags[count.index].value}" == "*universal*" ]; then
+      ./splunk_forwarder_installer.sh
+    else
+      ./splunk_enterprise_installer.sh
+    fi
 
+   
   EOF
 
   # tags = {
@@ -141,9 +155,9 @@ resource "aws_instance" "splunk_instances" {
     {
       "Name" = "${var.instance_tags[count.index].value}.${var.domain}"
     },
-    # var.instance_tags[count.index].value == "searchhead01" ? {
-    #   "Instance" = "SearchHead"
-    # } : {},
+    var.instance_tags[count.index].value == "searchhead01" ? {
+      "Instance" = "SearchHead"
+    } : {},
     contains([lower(var.instance_tags[count.index].value)], "searchhead01") ? {
       "Instance" = "SearchHead"
     } : {},

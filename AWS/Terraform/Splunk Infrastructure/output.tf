@@ -17,3 +17,14 @@ output "security_group_id" {
 output "availability_zones" {
   value = var.availability_zones
 }
+
+output "aws_instances" {
+  value = [
+    for i in aws_instance.splunk_instances : {
+      public_ip = i.public_ip,
+      name_tag  = i.tags["Name"]
+    }
+  ]
+}
+
+

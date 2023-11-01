@@ -32,7 +32,7 @@
 
  variable "key_pair_name" {
    description = "Key pair name"
-   default     = "splunk"
+   default     = "SplunkTraining"
  }
 
  variable "public_key_path" {
@@ -44,7 +44,7 @@
 
  variable "instance_count" {
    description = "Number of EC2 instances to create"
-   default     = 10
+   default     = 11
     # default = 2
  }
 
@@ -104,19 +104,23 @@
       },
       {
         "key"   = "Name"
-        "value" = "universalforwarder"
+        "value" = "linuxuniversalforwarder"
+      },
+      {
+        "key"   = "Name"
+        "value" = "license-server"
       }
    ]
  }
 
  variable "domain" {
      description = "Domain Name of the Company"
-     default = "nilipay.com"
+     default = "<domain>"
  }
 
  variable "splunk_ports" {
    type        = list(number)
-   default = ["8000", "8089", "9997", "8088"]
+   default = ["8000", "8089", "9997", "8088", "9998"]
  }
 
  variable "splunk_download" {
