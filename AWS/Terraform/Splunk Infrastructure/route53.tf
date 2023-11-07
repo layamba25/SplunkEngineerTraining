@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "training_zone" {
-    name = "<your domain name>"
+    name = "training.nilipay.com"
 }
 
 

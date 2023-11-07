@@ -2,7 +2,7 @@
 # VPC Configuration
 resource "aws_vpc" "splunkvpc" {
   cidr_block = var.vpc_cidr_block
-  enable_dns_hostnames = true
+  enable_dns_hostnames = false
   tags = {
     Name = "splunkvpc"
   } 

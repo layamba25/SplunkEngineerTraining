@@ -8,3 +8,5 @@
 ./AWS/Terraform/*/terraform.tfvars
 ./AWS/Terraform/*/terraform.tfvars.json
 ./AWS/Terraform/*/.terraform/
+
+./Scripts/Python/LogsGenerator/__pycache__/*
