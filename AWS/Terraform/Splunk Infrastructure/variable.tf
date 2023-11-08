@@ -44,8 +44,8 @@
 
  variable "instance_count" {
    description = "Number of EC2 instances to create"
-  #  default     = 11
-    default = 2
+   default     = 11
+    # default = 2
  }
 
 

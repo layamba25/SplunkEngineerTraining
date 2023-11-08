@@ -12,7 +12,7 @@ resource "aws_route53_record" "instance_records" {
   zone_id = aws_route53_zone.training_zone.zone_id
   name    = "${each.key}"
   type    = "A"
-  ttl     = 300
+  ttl     = 60
   records = [each.value]
 }
 
