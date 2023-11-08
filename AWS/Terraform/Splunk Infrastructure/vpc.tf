@@ -138,10 +138,12 @@ resource "aws_instance" "splunk_instances" {
     git clone https://github.com/layamba25/SplunkEngineerTraining.git
     cd SplunkEngineerTraining/Scripts/BashScripts
     chmod +x *.sh
-    if [ "${var.instance_tags[count.index].value}" == "*universal*" ]; then
-      ./splunk_forwarder_installer.sh
+
+    if [ "${var.instance_tags[count.index].value}" == "linuxuniversalforwarder" ]; then
+      timeout 3m ./splunk_forwarder_installer.sh
+      
     else
-      ./splunk_enterprise_installer.sh
+      timeout 5m ./splunk_enterprise_installer.sh
     fi
     
     # Install Tailscale
@@ -150,10 +152,6 @@ resource "aws_instance" "splunk_instances" {
    
   EOF
 
-  # tags = {
-  #   Name = "${var.instance_tags[count.index].value}.${var.domain}"
-    
-  # }
   tags = merge(
     {
       "Name" = "${var.instance_tags[count.index].value}.${var.domain}"
