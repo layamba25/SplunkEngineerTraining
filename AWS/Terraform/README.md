@@ -8,7 +8,7 @@ If you don't have a domain use
 
 Line 141, to use Captivator Tailscale, change the tag name to your name
 e.g ``` "tag:john" ```
-Send your email and the tag you used to add your to the Access Control List (ACL)
+Send your email and the tag you used to add you to the Access Control List (ACL)
 If you have your own Tailscale, this step won't apply.
 
 ### route53.tf
@@ -20,8 +20,8 @@ If you don't have a domain use
 Line 3, change the bucket name to your own bucketname. Create one inside your AWS if you don't have one already.
 
 Once the Infrastructure is deployed. 
-Go to route 53 ==> Hosted Zones ==> <your_first_name>.nilipay.com, 
-copy the values of the NS (Name Server). It will be something like this:
+Go to  ```Route 53 ==> Hosted Zones ==> <your_first_name>.nilipay.com ```, 
+Copy the values of the NS (Name Server). It will be something like this:
 
 ```
 ns-727.awsdns-26.net.
@@ -30,6 +30,6 @@ ns-1560.awsdns-03.co.uk.
 ns-186.awsdns-23.com.
 ```
 
-If you don't have your domain, share this NS record with me to add the my domain.
+If you don't have your own domain, share this NS record with me to add the my domain.
 If you have your own domain, go to your Domain Provider and add all these as a new Name Server
 
