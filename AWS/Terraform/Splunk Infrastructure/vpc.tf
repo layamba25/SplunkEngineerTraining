@@ -148,7 +148,7 @@ resource "aws_instance" "splunk_instances" {
     
     # Install Tailscale
     curl -fsSL https://tailscale.com/install.sh | sh
-    tailscale up --ssh --authkey="tskey-auth-knCJ6g7CNTRL-9RzpqSxDoGcKttY8bniMHckS8ZDMLVWZZ" --advertise-tags="tag:splunk-servers-ssh"
+    tailscale up --ssh --authkey="tskey-auth-knCJ6g7CNTRL-9RzpqSxDoGcKttY8bniMHckS8ZDMLVWZZ" --advertise-tags="${var.tailscale_advertiseTags}"
    
   EOF
 
