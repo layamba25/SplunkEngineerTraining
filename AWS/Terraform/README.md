@@ -1,7 +1,26 @@
+# How to Use Terraform scripts
+You should already have Terraform and AWS CLI installed.
+If you haven't, following these links
+[INSTALLING TERRAFORM](https://www.youtube.com/watch?v=LjRHJXwHN30)
+[INSTALLING AWS CLI](https://www.youtube.com/watch?v=10C_t0g39uU)
+
+1. Create an IAM User splunk_aws_user
+2. Generate an Access Key
+3. Add the access key to your Laptop in the file ```~/.aws/credentials```
+
+```
+[default]
+aws_access_key_id=<replace>
+aws_secret_access_key=<replacey>
+
+```
+
+
 # Splunk Infrastructure 
 Update the following to get this to work for your currently environment
 
 ### variable.tf
+Line 35, replace the Key pay with your Keypai.
 Line 118, change the domain to your own domain.
 If you don't have a domain use 
 ``` <your_first_name>.nilipay.com  ```

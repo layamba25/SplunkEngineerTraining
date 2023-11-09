@@ -26,8 +26,8 @@
 
  variable "instance_type" {
    description = "EC2 instance type"
-    default     = "t2.large"
-  #  default = "t2.micro"
+    # default     = "t2.large"
+   default = "t2.micro"
  }
 
  variable "key_pair_name" {
@@ -44,8 +44,8 @@
 
  variable "instance_count" {
    description = "Number of EC2 instances to create"
-   default     = 11
-    # default = 2
+  #  default     = 11
+    default = 2
  }
 
 
@@ -130,6 +130,16 @@
  variable "splunk_password" {
    default = "admin12345"
  }
+
+variable "tailscale_authKey" {
+  description = "Tailscale Auth Key"
+  default     = "tskey-auth-knCJ6g7CNTRL-9RzpqSxDoGcKttY8bniMHckS8ZDMLVWZZ"
+}
+
+variable "tailscale_advertiseTags" {
+  description = "Tailscale Advertise Tags"
+  default     = "tag:splunk-servers-ssh"
+}
 
 #  variable "ansible_public_key" {
 #    description = "Public key for the Ansible instance"

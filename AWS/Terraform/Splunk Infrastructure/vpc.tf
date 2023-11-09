@@ -165,6 +165,7 @@ resource "aws_instance" "splunk_instances" {
     contains([lower(var.instance_tags[count.index].value)], "searchhead02") ? {
       "Instance" = "SearchHead"
     } : {},
+
     ################################
     
     contains([lower(var.instance_tags[count.index].value)], "index01") ? {
@@ -178,6 +179,7 @@ resource "aws_instance" "splunk_instances" {
     contains([lower(var.instance_tags[count.index].value)], "index02") ? {
       "Instance" = "Indexer"
     } : {},
+    
     ################################
 
   )
