@@ -1,67 +1,41 @@
+variable "resource_group_name" {
+  description = "Name of the Azure resource group"
+  type        = string
+  default     = "splunk-resources"
+}
 
- variable "vpc_cidr_block" {
-   description = "CIDR block for the VPC"
-   default     = "10.0.0.0/16"
- }
+variable "resource_group_location" {
+  description = "Location of the Azure resource group"
+  type        = string
+  default     = "us-east2"
+}
 
- variable "public_subnet_cidr_block" {
-   description = "CIDR block for the public subnet"
-   default     = "10.0.1.0/24"
- }
+variable "vnet_name" {
+  description = "Name of the virtual network"
+  type        = string
+  default     = "splunk-vnet"
+}
 
- variable "private_subnet_1_cidr_block" {
-   description = "CIDR block for private subnet 1"
-   default     = "10.0.2.0/24"
- }
+variable "vnet_address_space" {
+  description = "Address space for the virtual network"
+  type        = list(string)
+  default     = ["10.0.0.0/16"]
+}
 
- variable "private_subnet_2_cidr_block" {
-   description = "CIDR block for private subnet 2"
-   default     = "10.0.3.0/24"
- }
+variable "subnet_name" {
+  description = "Name of the subnet"
+  type        = string
+  default     = "splunk-subnet"
+}
 
- variable "ubuntu_ami" {
-   description = "AMI ID for Ubuntu"
-   default     = "ami-024e6efaf93d85776"
- }
-
- variable "instance_type" {
-   description = "EC2 instance type"
-    # default     = "t2.large"
-   default = "t2.medium"
- }
-
- variable "key_pair_name" {
-   description = "Key pair name"
-   default     = "SplunkTraining"
- }
-
- variable "public_key_path" {
-   description = "Path to the public key file"
-   default     =  "C:\\Users\\Enior\\OneDrive\\Desktop\\splunk-infra\\splunk.pem"
-
- }
+variable "subnet_prefixes" {
+  description = "Address prefixes for the subnet"
+  type        = list(string)
+  default     = ["10.0.1.0/24"]
+}
 
 
- variable "instance_count" {
-   description = "Number of EC2 instances to create"
-   default     = 11
-    # default = 2
- }
-
-
- variable "availability_zones" {
-   description = "List of availability zones"
-   type        = list(string)
-   default     = ["us-east-2a", "us-east-2b", "us-east-2c"]
- }
-
- variable "control_node_hostname" {
-   description = "Hostname for the control node"
-   default     = "control-node"
- }
-
-
- variable "instance_tags" {
+variable "instance_tags" {
    description = "List of targeted nodes tags for EC2 instances"
    type        = list(map(string))
    default = [

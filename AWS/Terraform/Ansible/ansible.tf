@@ -8,7 +8,7 @@ provider "aws" {
 resource "aws_instance" "ansible" {
     ami           = "ami-0c55b159cbfafe1f0"
     instance_type = "t2.micro"
-    key_name      = "my-key"
+    key_name      = var.key_pair_name
     security_groups = ["default"]
 
     # Define the user data script to install Ansible
