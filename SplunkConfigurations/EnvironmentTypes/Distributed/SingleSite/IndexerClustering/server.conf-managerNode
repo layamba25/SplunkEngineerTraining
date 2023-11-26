@@ -1,0 +1,7 @@
+[clustering]
+mode = manager
+pass4SymmKey = someSecret
+replication_factor = 2
+search_factor = 2
+cluster_label = splunk_training01
+

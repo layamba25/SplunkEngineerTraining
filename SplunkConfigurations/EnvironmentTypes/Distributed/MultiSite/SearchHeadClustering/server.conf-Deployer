@@ -1,0 +1,4 @@
+[shclustering]
+disabled = false
+pass4SymmKey = someSecret
+shcluster_label shcluster_splunktraining01

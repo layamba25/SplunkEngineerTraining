@@ -1,0 +1,9 @@
+[shclustering]
+disabled = false
+mgmt_uri =  https://<URL_of_SH>:8089
+replication_factor = 2
+pass4SymmKey = someSecret
+
+# IP of Deployer
+conf_deploy_fetch_url = https://deployer.training.nilipay.com:8089 
+shcluster_label = shcluster_splunktraining01

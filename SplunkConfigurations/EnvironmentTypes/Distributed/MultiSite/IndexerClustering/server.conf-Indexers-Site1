@@ -1,0 +1,13 @@
+
+[general]
+site = site1
+pass4SymmKey = someSecret
+
+[clustering]
+mode = peer 
+manager_uri = https://clustermanager.training.nilipay.com:8089
+pass4SymmKey = someSecret
+
+
+
+[replication_port://9998]

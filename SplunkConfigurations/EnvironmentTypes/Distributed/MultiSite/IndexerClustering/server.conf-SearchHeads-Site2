@@ -1,0 +1,8 @@
+[general]
+site = site2
+
+[clustering]
+mode = searchhead
+manager_uri = https://clustermanager.training.nilipay.com:8089
+pass4SymmKey = someSecret
+multisite=true

@@ -1,0 +1,13 @@
+[general]
+site = site1
+
+[clustering]
+mode = manager
+pass4SymmKey = someSecret
+cluster_label = splunk_training01
+
+multisite=true
+available_sites = site1,site2
+site_replication_factor = origin:2, total:3
+site_search_factor = origin:2, total:3
+
