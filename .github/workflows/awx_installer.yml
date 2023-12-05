@@ -29,8 +29,8 @@ jobs:
 
     - name: Run AWX Install Script
       run: |
-        chmod +x SplunkEngineerTraining/Scripts/BashScripts/awx_installer.sh
-        sudo SplunkEngineerTraining/Scripts/BashScripts/awx_installer.sh
+        chmod +x Scripts/BashScripts/awx_installer.sh
+        sudo Scripts/BashScripts/awx_installer.sh
 
     - name: Wait for AWX to be up
       run: |
