@@ -11,6 +11,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Test Splunk Installer
       run: |
-        chmod +x BashScripts/splunk_enterprise_installer.sh
-        sudo BashScripts/splunk_enterprise_installer.sh
+        chmod +x Scripts/BashScripts/splunk_enterprise_installer.sh
+        sudo Scripts/BashScripts/splunk_enterprise_installer.sh
         nc -zv 127.0.0.1 8000 && echo "Port 8000 is open" || echo "Port 8000 is closed"
