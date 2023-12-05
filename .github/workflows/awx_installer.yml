@@ -22,15 +22,15 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Install Docker and Docker-Compose
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y docker.io docker-compose git
+    # - name: Install Docker and Docker-Compose
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get install -y docker.io docker-compose git
 
     - name: Run AWX Install Script
       run: |
-        chmod +x path/to/your/install_awx.sh
-        sudo path/to/your/install_awx.sh
+        chmod +x SplunkEngineerTraining/Scripts/BashScripts/awx_installer.sh
+        sudo SplunkEngineerTraining/Scripts/BashScripts/awx_installer.sh
 
     - name: Wait for AWX to be up
       run: |
