@@ -14,3 +14,19 @@ jobs:
         chmod +x Scripts/BashScripts/splunk_enterprise_installer.sh
         sudo Scripts/BashScripts/splunk_enterprise_installer.sh
         nc -zv 127.0.0.1 8000 && echo "Port 8000 is open" || echo "Port 8000 is closed"
+
+    - name: Wait for Splunk to be up
+      run: |
+          echo "Waiting for Splunk to start..."
+          timeout 300 bash -c 'until echo > /dev/tcp/localhost/8000; do sleep 5; done'
+  
+    - name: Check if Splunk is running on port 8000
+      run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000)
+          if [ "$response" -ne 200 ]; then
+            echo "Splunk is not running on port 8000"
+            exit 1
+          else
+            echo "Splunk is running on port 8000"
+          fi
+  
