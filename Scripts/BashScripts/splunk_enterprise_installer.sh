@@ -53,9 +53,11 @@ echo "splunk_user ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # 2. Install Splunk from the provided URL
 wget -O /tmp/splunk.tgz https://download.splunk.com/products/splunk/releases/9.1.0.2/linux/splunk-9.1.0.2-b6436b649711-Linux-x86_64.tgz
+sleep 5
 
 # 3. Extract and install
 tar -xzvf /tmp/splunk.tgz -C /opt/
+sleep 5
 
 # 4.0 Add Default Splunk Admin user and password
 echo "###### Adding default Splunk Admin user and password ########"
@@ -81,7 +83,7 @@ sudo chown -R splunk_user:splunk_user /opt/splunk
 echo "############# Enabling Splunk to start at boot via Systemd ##############"
 /opt/splunk/bin/splunk enable boot-start -systemd-managed 1 -user splunk_user --accept-license --answer-yes --no-prompt
 
-# sleep 2s
+sleep 10
 # 6. Change ownership
 sudo chown -R splunk_user:splunk_user /opt/splunk
 
@@ -96,7 +98,7 @@ echo "############### Starting Splunkd ###############"
 systemctl start Splunkd
 
 # Check Splunkd status
-sleep 5s
+sleep 5
 echo "############### Checking Splunkd status ################"
 # systemctl status Splunkd
 if sudo systemctl status Splunkd | grep -q "active (running)"; then

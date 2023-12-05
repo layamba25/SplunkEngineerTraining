@@ -1,0 +1,48 @@
+name: AWX Installation Test
+
+on: [push, pull_request]
+
+jobs:
+  test_install_script:
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:19.03.12
+        options: --privileged
+        ports:
+          - 8080:80
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install Docker and Docker-Compose
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker.io docker-compose git
+
+    - name: Run AWX Install Script
+      run: |
+        chmod +x path/to/your/install_awx.sh
+        sudo path/to/your/install_awx.sh
+
+    - name: Wait for AWX to be up
+      run: |
+        echo "Waiting for AWX to start..."
+        timeout 300 bash -c 'until echo > /dev/tcp/localhost/8080; do sleep 5; done'
+
+    - name: Check if AWX is running on port 8080
+      run: |
+        response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080)
+        if [ "$response" -ne 200 ]; then
+          echo "AWX is not running on port 8080"
+          exit 1
+        else
+          echo "AWX is running on port 8080"
+        fi
