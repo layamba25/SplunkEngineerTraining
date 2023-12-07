@@ -1,4 +1,5 @@
 resource "aws_route53_zone" "training_zone" {
+  # Replace with your own domain name e.g "john.nilipay.com"
     name = "training.nilipay.com"
 }
 

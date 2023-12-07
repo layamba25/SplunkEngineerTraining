@@ -52,12 +52,12 @@ sudo useradd -m -s /bin/bash splunk_user
 echo "splunk_user ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # 2. Install Splunk from the provided URL
-wget -O /tmp/splunk.tgz https://download.splunk.com/products/splunk/releases/9.1.0.2/linux/splunk-9.1.0.2-b6436b649711-Linux-x86_64.tgz
-sleep 5
+wget -O /tmp/splunk.tgz https://download.splunk.com/products/splunk/releases/9.1.1/linux/splunk-9.1.1-64e843ea36b1-Linux-x86_64.tgz
+sleep 1m
 
 # 3. Extract and install
 tar -xzvf /tmp/splunk.tgz -C /opt/
-sleep 5
+sleep 1m
 
 # 4.0 Add Default Splunk Admin user and password
 echo "###### Adding default Splunk Admin user and password ########"
@@ -90,17 +90,20 @@ sudo chown -R splunk_user:splunk_user /opt/splunk
 # 7. Reload Systemd
 echo "############## Reloading Systemd ###############"
 systemctl daemon-reload
+echo ".....Done Reloading Systemd....."
 
 echo "############## Enabling Splunkd ##############"
 systemctl enable Splunkd
+echo ".....Done Enabling Splunkd....."
 
 echo "############### Starting Splunkd ###############"
 systemctl start Splunkd
+echo ".....Done Starting Splunkd....."
 
 # Check Splunkd status
-sleep 5
+
 echo "############### Checking Splunkd status ################"
-# systemctl status Splunkd
+
 if sudo systemctl status Splunkd | grep -q "active (running)"; then
     echo "Splunkd is running"
 else

@@ -1,4 +1,14 @@
-
+ variable "instance_tags" {
+    description = "List of targeted nodes tags for EC2 instances"
+    type        = list(map(string))
+    default = [
+      {
+        "key"   = "Name"
+        "value" = "awx"
+      }
+    ]
+  }
+  
  variable "ubuntu_ami" {
    description = "AMI ID for Ubuntu"
    default     = "ami-024e6efaf93d85776"
@@ -38,5 +48,5 @@ variable "tailscale_authKey" {
 
 variable "tailscale_advertiseTags" {
   description = "Tailscale Advertise Tags"
-  default     = "tag:splunk-servers-ssh"
+  default     = "tag:awx"
 }

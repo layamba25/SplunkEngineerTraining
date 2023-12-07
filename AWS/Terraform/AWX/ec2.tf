@@ -1,7 +1,7 @@
 # Security Group Configuration
 resource "aws_security_group" "my_security_group" {
   name        = "awx-sg"
-  description = "My Security Group"
+  description = "AWX Security Group"
 
 #   vpc_id = aws_vpc.splunkvpc.id
 
@@ -30,12 +30,12 @@ resource "aws_security_group" "my_security_group" {
 }
 
 # # EC2 Instance Configuration
-resource "aws_instance" "splunk_instances" {
+resource "aws_instance" "awx_instance" {
     ami           = var.ubuntu_ami
     instance_type = var.instance_type
     key_name      = var.key_pair_name
-    vpc_security_group_ids = [aws_security_group.my_security_group.id]
-    subnet_id = aws_subnet.public_subnet.id
+    # vpc_security_group_ids = [aws_security_group.my_security_group.id]
+    # subnet_id = aws_subnet.public_subnet.id
     tags = {
         Name = "AWX Server"
     }
@@ -54,6 +54,8 @@ resource "aws_instance" "splunk_instances" {
                 curl -fsSL https://tailscale.com/install.sh | sh
                 tailscale up --ssh --authkey="tskey-auth-knCJ6g7CNTRL-9RzpqSxDoGcKttY8bniMHckS8ZDMLVWZZ" --advertise-tags="${var.tailscale_advertiseTags}"
    
+                # Generate SSH Key
+                ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
                 EOF
 
 }

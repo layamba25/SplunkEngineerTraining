@@ -3,11 +3,15 @@
 *.tfstate.*
 *.tfplan
 .terraform/
+.terraform/*
 ./AWS/Terraform/*/terraform.tfstate
 ./AWS/Terraform/*/terraform.tfstate.backup
 ./AWS/Terraform/*/terraform.tfvars
 ./AWS/Terraform/*/terraform.tfvars.json
-./AWS/Terraform/*/.terraform/
+./AWS/Terraform/*/.terraform*
+.AWS/.terraform*
+./AWS/SplunkInfrastructure/.terraform*
+./AWS/AWX/.terraform*
 
 ./Scripts/Python/LogsGenerator/__pycache__/*
 ./Scripts/Python/LogsGenerator/logenv/*

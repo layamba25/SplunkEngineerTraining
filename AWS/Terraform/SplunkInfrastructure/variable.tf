@@ -26,12 +26,12 @@
 
  variable "instance_type" {
    description = "EC2 instance type"
-    # default     = "t2.large"
    default = "t2.medium"
  }
 
  variable "key_pair_name" {
    description = "Key pair name"
+   # Replace with your own key pair name e.g "splunk-training"
    default     = "SplunkTraining"
  }
 
@@ -115,6 +115,7 @@
 
  variable "domain" {
      description = "Domain Name of the Company"
+     # Replace with your own domain name e.g "john.nilipay.com"
      default = "training.nilipay.com"
  }
 
@@ -124,11 +125,8 @@
  }
 
  variable "splunk_download" {
-   default =  "https://download.splunk.com/products/splunk/releases/9.0.5/linux/splunk-9.0.5-e9494146ae5c-Linux-x86_64.tgz"
- }
-
- variable "splunk_password" {
-   default = "admin12345"
+  #  default =  "https://download.splunk.com/products/splunk/releases/9.0.5/linux/splunk-9.0.5-e9494146ae5c-Linux-x86_64.tgz"
+     default =  "https://download.splunk.com/products/splunk/releases/9.1.1/linux/splunk-9.1.1-64e843ea36b1-Linux-x86_64.tgz"
  }
 
 variable "tailscale_authKey" {
@@ -138,7 +136,8 @@ variable "tailscale_authKey" {
 
 variable "tailscale_advertiseTags" {
   description = "Tailscale Advertise Tags"
-  default     = "tag:splunk-servers-ssh"
+  # Replace with your own tags e.g "tag:jacob-splunk"
+  default     = "tag:splunk-training"
 }
 
 #  variable "ansible_public_key" {
