@@ -4,6 +4,9 @@
   become: yes
 
   tasks:
+    - name: Ping all hosts
+      ping:
+      
     - name: Clone repository
       git:
         repo: "https://github.com/layamba25/SplunkEngineerTraining"
