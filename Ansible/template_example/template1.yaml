@@ -1,0 +1,24 @@
+---
+- name: [Description of the Playbook]
+  hosts: [Target Hosts or Group]
+  become: [yes/no]
+  vars:
+    variable1: [Value1]
+    variable2: [Value2]
+
+  tasks:
+    - name: [Description of Task 1]
+      [Module Name]:
+        [Module Option 1]: [Value or Variable]
+        [Module Option 2]: [Value or Variable]
+      when: [Condition]
+
+    - name: [Description of Task 2]
+      [Module Name]:
+        [Module Option]: [Value or Variable]
+      notify: [Handler Name]
+
+  handlers:
+    - name: [Handler Name]
+      [Module Name]:
+        [Module Option]: [Value or Variable]

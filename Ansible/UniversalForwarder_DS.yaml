@@ -1,6 +1,6 @@
 ---
 - name: Deploy deploymentclient.conf to Splunk Universal Forwarder
-  hosts: universalforwarder
+  hosts: indexers
   become: yes
 
   tasks:

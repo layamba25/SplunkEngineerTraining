@@ -1,0 +1,22 @@
+---
+- name: Install and start NGINX
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Install NGINX
+      # Equivalent Linux command:
+      # sudo apt-get update && sudo apt-get install nginx -y
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Start NGINX service
+      # Equivalent Linux command:
+      # sudo systemctl start nginx
+      # sudo systemctl enable nginx
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes
