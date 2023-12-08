@@ -1,5 +1,6 @@
 ---
 host: all
 tasks:
+# Testing Ping module
   - name: Ping all hosts
     ping:
