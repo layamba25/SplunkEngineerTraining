@@ -1,5 +1,5 @@
 # Security Group Configuration
-resource "aws_security_group" "my_security_group" {
+resource "aws_security_group" "awx_security_group" {
   name        = "awx-sg"
   description = "AWX Security Group"
 
@@ -34,7 +34,7 @@ resource "aws_instance" "awx_instance" {
     ami           = var.ubuntu_ami
     instance_type = var.instance_type
     key_name      = var.key_pair_name
-    # vpc_security_group_ids = [aws_security_group.my_security_group.id]
+    vpc_security_group_ids = [aws_security_group.awx_security_group.id]
     # subnet_id = aws_subnet.public_subnet.id
     tags = {
         Name = "AWX Server"
@@ -49,7 +49,7 @@ resource "aws_instance" "awx_instance" {
                 chmod +x awx_installer.sh
                 ./awx_installer.sh
 
-                sleep 1m
+                sleep 3m
                 # Install Tailscale
                 curl -fsSL https://tailscale.com/install.sh | sh
                 tailscale up --ssh --authkey="tskey-auth-knCJ6g7CNTRL-9RzpqSxDoGcKttY8bniMHckS8ZDMLVWZZ" --advertise-tags="${var.tailscale_advertiseTags}"

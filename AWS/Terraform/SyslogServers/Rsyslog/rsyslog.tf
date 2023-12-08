@@ -9,10 +9,10 @@ resource "aws_instance" "ubuntu" {
     security_groups = ["default"]
 
     user_data = <<-EOF
-                            #!/bin/bash
-                            sudo apt-get update
-                            sudo apt-get install -y rsyslog
-                            EOF
+                #!/bin/bash
+                sudo apt-get update
+                sudo apt-get install -y rsyslog
+                EOF
 
     tags = {
         Name = "ubuntu-rsyslog"
