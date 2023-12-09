@@ -57,7 +57,7 @@ sleep 1m
 
 # 3. Extract and install
 tar -xzvf /tmp/splunk.tgz -C /opt/
-sleep 1m
+sleep 4m
 
 # 4.0 Add Default Splunk Admin user and password
 echo "###### Adding default Splunk Admin user and password ########"
@@ -83,7 +83,7 @@ sudo chown -R splunk_user:splunk_user /opt/splunk
 echo "############# Enabling Splunk to start at boot via Systemd ##############"
 /opt/splunk/bin/splunk enable boot-start -systemd-managed 1 -user splunk_user --accept-license --answer-yes --no-prompt
 
-sleep 10
+sleep 1m
 # 6. Change ownership
 sudo chown -R splunk_user:splunk_user /opt/splunk
 
