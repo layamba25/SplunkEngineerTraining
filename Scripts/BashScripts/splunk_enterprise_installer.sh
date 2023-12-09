@@ -53,7 +53,7 @@ echo "splunk_user ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # 2. Install Splunk from the provided URL
 wget -O /tmp/splunk.tgz https://download.splunk.com/products/splunk/releases/9.1.1/linux/splunk-9.1.1-64e843ea36b1-Linux-x86_64.tgz
-sleep 1m
+sleep 2m
 
 # 3. Extract and install
 tar -xzvf /tmp/splunk.tgz -C /opt/
