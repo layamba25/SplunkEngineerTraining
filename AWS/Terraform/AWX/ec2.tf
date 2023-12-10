@@ -39,6 +39,10 @@ resource "aws_instance" "awx_instance" {
     tags = {
         Name = "AWX Server"
     }
+    # Update Storage Size to 100GB
+    root_block_device {
+        volume_size = 20
+    }
     user_data = <<-EOF
                 #!/bin/bash
                 # Run AWS Install Script
@@ -46,8 +50,10 @@ resource "aws_instance" "awx_instance" {
                 yum install -y git
                 git clone https://github.com/layamba25/SplunkEngineerTraining.git
                 cd SplunkEngineerTraining/Scripts/BashScripts
-                chmod +x awx_installer.sh
-                ./awx_installer.sh
+                # chmod +x awx_installer.sh
+                # ./awx_installer.sh
+                chmod +x awx_operator.sh
+                ./awx_operator.sh
 
                 sleep 3m
                 # Install Tailscale

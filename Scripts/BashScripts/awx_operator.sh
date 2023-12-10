@@ -11,20 +11,45 @@ fi
 # Function to install AWX on RHEL/CentOS
 install_awx_rhel() {
     # Step 1: Install EPEL repository
+    echo "============installing prerequisites==========="
+    yum update -y
+    yum upgrade -y
     yum install -y epel-release
-
+    yum install -y git gcc gcc-c++ nodejs gettext device-mapper-persistent-data lvm2 bzip2 python3-pip python3-devel python3-libselinux python3-docker-py python3-docker-compose python3-
+    yum install -y ansible
+ 
     # Step 2: Install Docker
+    echo "============installing docker==========="
     yum install -y docker
     systemctl start docker
     systemctl enable docker
 
     # Step 3: Install docker-compose
+    echo "============installing docker-compose==========="
     yum install -y python3-pip
     pip3 install docker-compose
-    pip3 install awxkit
 
-    # Step 4: Selinux configuration
-    # sudo setenforce 0
+    # Step 4: Install Minikube
+    echo "============installing minikube==========="
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    sudo install minikube-linux-amd64 /usr/local/bin/minikube
+    minikube start --cpus=2 --memory=2g --addons=ingress --driver=docker --force
+    alias kubectl="minikube kubectl --"
+    kubectl apply -k .
+
+     # Step 5: Check Pods
+    echo "============checking pods==========="
+    kubectl get pods -n awx
+    kubectl config set-context --current --namespace=awx
+
+    # Step 6: Get an save the admin password
+    echo "============getting admin password==========="
+    kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode > /var/log/admin_password.txt
+
+    # Step 7: Configure Ingress Controller for Minikube
+    echo "============configuring ingress controller==========="
+    minikube addons enable ingress
+    # kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/cloud/deploy.yaml
 }
 
 # Function to install AWX on Debian/Ubuntu
@@ -45,17 +70,42 @@ install_awx_debian() {
 
     # Step 4: Install Docker CE
     echo "============installing docker ce==========="
-    apt-get update
+    apt-get update -y
+    apt upgrade -y
     apt-get install -y docker-ce
 
     # Step 5: Install docker-compose
     echo "============installing docker-compose==========="
     apt-get install -y python3-pip
     pip3 install docker-compose
-    pip3 install awxkit
+    apt-get install -y conntrack crictl socat
 
-    # Step 6: Selinux configuration
-    # sudo setenforce 0
+    # Step 6: Install Minikube
+    echo "============installing minikube==========="
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    sudo install minikube-linux-amd64 /usr/local/bin/minikube
+    minikube start --cpus=2 --memory=2g --addons=ingress --driver=docker --force
+    alias kubectl="minikube kubectl --"
+    kubectl apply -k .
+
+    # Step 7: Check Pods
+    echo "============checking pods==========="
+    kubectl get pods -n awx
+    kubectl config set-context --current --namespace=awx
+
+      # Step 6: Get an save the admin password
+    echo "============getting admin password==========="
+    kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode > /var/log/admin_password.txt
+}
+    # curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+    # sudo dpkg -i minikube_latest_amd64.deb
+    # wget https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.26.0/crictl-v1.26.0-linux-amd64.tar.gz
+    # # minikube start docker --force
+    # minikube start --cpus=4 --memory=6g --addons=ingress --driver=docker --force
+    # minikube kubectl -- get pods -A
+    # alias kubectl="minikube kubectl --"
+
+
 }
 
 # Install git and clone the AWX repository
@@ -75,32 +125,17 @@ install_common_packages() {
         echo "============installing ansible ==========="
         yum install -y ansible
         yum install pwgen -y
+        yum install -y make
     elif [ -x "$(command -v apt-get)" ]; then
         echo "============installing ansible ==========="
         apt-get install -y ansible
         apt install pwgen -y
+        apt install -y make
     fi
 
-    # Clone the AWX repository
-    # git clone https://github.com/ansible/awx.git
-    # cd awx/installer/
+    # Basic install
     #Reference https://cloudinfrastructureservices.co.uk/how-to-install-ansible-awx-using-docker-compose-awx-container-20-04/
-    echo "============installing awx ==========="
-    cd /opt
-    wget https://github.com/ansible/awx/archive/17.1.0.zip
-    unzip 17.1.0.zip
-    cd awx-17.1.0/installer/
-    
-    cp inventory inventory.bak
-
-    secret_key=$(pwgen -N 1 -s 40)
-    echo "-----Your Secret is $secret_key -----"
-    sed -i "s/^secret_key=.*$/secret_key=$secret_key/" inventory
-    
-    sed -i "s/^# admin_password=password*$/admin_password=password/" inventory
-    # Install common packages and run AWX installation
-    ansible-playbook -i inventory install.yml
-    
+   
    
 }
 

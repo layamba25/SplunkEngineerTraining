@@ -27,6 +27,8 @@
  variable "instance_type" {
    description = "EC2 instance type"
    default = "t2.medium"
+  #  default = "t2.large"
+
  }
 
  variable "key_pair_name" {
@@ -45,7 +47,7 @@
  variable "instance_count" {
    description = "Number of EC2 instances to create"
    default     = 11
-    # default = 2
+    # default = 4
  }
 
 
@@ -131,7 +133,8 @@
 
 variable "tailscale_authKey" {
   description = "Tailscale Auth Key"
-  default     = "tskey-auth-knCJ6g7CNTRL-9RzpqSxDoGcKttY8bniMHckS8ZDMLVWZZ"
+  # default     = "tskey-auth-knCJ6g7CNTRL-9RzpqSxDoGcKttY8bniMHckS8ZDMLVWZZ"
+  default = "tskey-auth-kH47tD2CNTRL-je7o5NFLVZY7QqzkPBwwYYXJDJfUQfntP"
 }
 
 variable "tailscale_advertiseTags" {

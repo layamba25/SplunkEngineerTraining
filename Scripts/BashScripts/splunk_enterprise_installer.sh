@@ -5,6 +5,18 @@ if [[ $EUID -ne 0 ]]; then
     echo "###### This script must be run as root #######"
     exit 1
 fi
+# Run yum or apt update and upgrade to ensure the system is up to date
+echo "############ Updating and Upgrading the system #############"
+# Run base on OS type (RHEL/CentOS or Debian/Ubuntu)
+if [[ -f /etc/redhat-release ]]; then
+    yum update -y
+    yum upgrade -y
+elif [[ -f /etc/debian_version ]]; then
+    apt-get install -y debian-goodies
+    apt-get update -y
+    apt-get install -y debian-goodies
+    apt-get upgrade -y
+fi
 
 # First configure the Linux host to meet the Splunk Enterprise system requirements
 # https://docs.splunk.com/Documentation/Splunk/8.1.2/Installation/Systemrequirements#System_requirements_for_Linux
@@ -49,15 +61,16 @@ systemctl daemon-reload
 # 1. Create a splunk_user with sudo privileges and no password
 echo "###### Creating splunk_user with sudo privileges and no password ########"
 sudo useradd -m -s /bin/bash splunk_user
-echo "splunk_user ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
+echo "splunk_user ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers.d/splunk-sudoers
 
 # 2. Install Splunk from the provided URL
 wget -O /tmp/splunk.tgz https://download.splunk.com/products/splunk/releases/9.1.1/linux/splunk-9.1.1-64e843ea36b1-Linux-x86_64.tgz
-sleep 2m
+# sleep 2m
 
 # 3. Extract and install
 tar -xzvf /tmp/splunk.tgz -C /opt/
-sleep 4m
+# sleep 3m
+
 
 # 4.0 Add Default Splunk Admin user and password
 echo "###### Adding default Splunk Admin user and password ########"
@@ -77,13 +90,13 @@ EOF
 # 4.2 Change ownership
 echo "############ Changing ownership of /opt/splunk to splunk_user #############"
 sudo chown -R splunk_user:splunk_user /opt/splunk
-# sleep 2s
+# sleep 2m
 
 # 5. Start Boot start
 echo "############# Enabling Splunk to start at boot via Systemd ##############"
 /opt/splunk/bin/splunk enable boot-start -systemd-managed 1 -user splunk_user --accept-license --answer-yes --no-prompt
 
-sleep 1m
+# sleep 1m
 # 6. Change ownership
 sudo chown -R splunk_user:splunk_user /opt/splunk
 

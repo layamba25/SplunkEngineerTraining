@@ -43,13 +43,19 @@ resource "aws_instance" "splunk_instances" {
   
   associate_public_ip_address = true
 
+ # update the storage size to 20GB
+  root_block_device {
+    volume_size = 20
+  }
+
+
   user_data = <<-EOF
     #!/bin/bash
     echo "Setting hostname to: ${var.instance_tags[count.index].value}.${var.domain}"
     hostnamectl set-hostname ${var.instance_tags[count.index].value}.${var.domain}
     apt install git -y
 
-    #useradd -m splunk_user && sudo usermod -aG sudo splunk_user && echo "splunk_user ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+    ##useradd -m splunk_user && sudo usermod -aG sudo splunk_user && echo "splunk_user ALL=(ALL) NOPASSWD: ALL" | sudo tee -a /etc/sudoers
     
     # Generate SSH key pair for the splunk_user
     sudo -u splunk_user ssh-keygen -t rsa -b 4096 -C 'splunk_user@example.com' -f /home/splunk_user/.ssh/id_rsa -N ''
@@ -64,18 +70,19 @@ resource "aws_instance" "splunk_instances" {
     chmod +x *.sh
 
     if [ "${var.instance_tags[count.index].value}" == "linuxuniversalforwarder" ]; then
-      timeout 3m ./splunk_forwarder_installer.sh
-      
+      timeout 5m ./splunk_forwarder_installer.sh
     else
-      timeout 5m ./splunk_enterprise_installer.sh
+      timeout 30m ./splunk_enterprise_installer.sh | tee /var/log/splunk_install.log
     fi
     
     # Install Tailscale
     curl -fsSL https://tailscale.com/install.sh | sh
-    tailscale up --ssh --authkey="tskey-auth-knCJ6g7CNTRL-9RzpqSxDoGcKttY8bniMHckS8ZDMLVWZZ" --advertise-tags="${var.tailscale_advertiseTags}"
+    # tailscale up --ssh --authkey="tskey-auth-knCJ6g7CNTRL-9RzpqSxDoGcKttY8bniMHckS8ZDMLVWZZ" --advertise-tags="${var.tailscale_advertiseTags}"
+    tailscale up --ssh --authkey="${var.tailscale_authKey}" --advertise-tags="${var.tailscale_advertiseTags}"
 
    
-    # Generate SSH Key
+    # Generate SSH Key for the splunk_user
+    sudo -u splunk_user
     ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 
   EOF
