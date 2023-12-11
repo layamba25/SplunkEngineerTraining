@@ -27,7 +27,7 @@
  variable "instance_type" {
    description = "EC2 instance type"
    default = "t2.medium"
-  #  default = "t2.large"
+  #  default = "t2.micro"
 
  }
 
@@ -37,22 +37,23 @@
    default     = "SplunkTraining"
  }
 
- variable "public_key_path" {
+ variable "ansible_public_key_path" {
    description = "Path to the Ansible public key file"
-   default     =  "id_rsa.pub"
+   # Replace with your own ansible key pair path
+   default     =  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7Z0hGNkkHxNXibipQIk2vEALF9Ey2SvAtg6q3Uu59+BjcN4jg2VdWM1cvVu9/wTsXnwPOlN1E3iMoP5tBW3niTN0aHj4VZCr1XuFRbeKuV05VTCYHqZvrZmNZVoM1SBsbZppNeR7veuhsePMv5ZydX3ggHZJYUYWvJ+wL1yQHoDxp/UqtxqGyJxkc4Z6NQOZ2uPeB7PEooO221mnT+f6iWfEb9Tze4CQD+/5VVMnx5UXQsxFaEzWBkwRt/87ZoCrZqaGpXjM201LC3U+VrHv4DYvzq8ZrIbFeCMX/kJQdE3peKt/8iDT7b8TWUOmCx/FaKQei9v+is5vOC4CVyKdp ansible@ip-172-31-25-15"
 
  }
 
 variable "ssh_key_path" {
   description = "Path to the Ansible private key file"
   # Replace with your own key pair path
-  default     =  "C:\\Users\\leona\\OneDrive\\Desktop\\Training\\Splunk Engineering\\AWS\\ansible_id_rsa.pub"
+  default     =  "C:\\Users\\leona\\OneDrive\\Desktop\\Training\\Splunk Engineering\\AWS\\SplunkTraining.pem"
   
 }
  variable "instance_count" {
    description = "Number of EC2 instances to create"
    default     = 11
-    # default = 4
+    # default = 1
  }
 
 

@@ -39,7 +39,8 @@ resource "aws_instance" "ansible" {
     # Use remote-exec provisioner to create ansible user and generate private key
     provisioner "remote-exec" {
         inline = [
-            "sudo useradd -m ansible",
+            "sudo useradd -m -s /bin/bash ansible",
+            "echo 'ansible ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers.d/ansible-sudoers",
             "sudo mkdir -p /home/ansible/.ssh",
             "sudo chmod 700 /home/ansible/.ssh",
             "sudo touch /home/ansible/.ssh/authorized_keys",
