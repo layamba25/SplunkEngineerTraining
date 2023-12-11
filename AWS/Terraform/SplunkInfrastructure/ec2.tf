@@ -119,4 +119,18 @@ resource "aws_instance" "splunk_instances" {
 
   )
 
+# copy the ansible ssh key from local to the remote server's authorized_keys file
+  provisioner "file" {
+    source      = var.public_key_path
+    destination = "/home/splunk_user/.ssh/authorized_keys"
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file(var.ssh_key_path)
+      host        = self.public_ip
+    }
+  }
+
+
 }

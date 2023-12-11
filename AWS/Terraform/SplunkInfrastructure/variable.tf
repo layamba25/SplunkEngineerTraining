@@ -38,12 +38,17 @@
  }
 
  variable "public_key_path" {
-   description = "Path to the public key file"
-   default     =  "C:\\Users\\Enior\\OneDrive\\Desktop\\splunk-infra\\splunk.pem"
+   description = "Path to the Ansible public key file"
+   default     =  "id_rsa.pub"
 
  }
 
-
+variable "ssh_key_path" {
+  description = "Path to the Ansible private key file"
+  # Replace with your own key pair path
+  default     =  "C:\\Users\\leona\\OneDrive\\Desktop\\Training\\Splunk Engineering\\AWS\\ansible_id_rsa.pub"
+  
+}
  variable "instance_count" {
    description = "Number of EC2 instances to create"
    default     = 11

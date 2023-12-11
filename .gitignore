@@ -8,6 +8,7 @@
 ./AWS/Terraform/*/terraform.tfstate.backup
 ./AWS/Terraform/*/terraform.tfvars
 ./AWS/Terraform/*/terraform.tfvars.json
+./AWS/Terraform/*/id_rsa*
 ./AWS/Terraform/*/.terraform*
 .AWS/.terraform*
 ./AWS/SplunkInfrastructure/.terraform*
