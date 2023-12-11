@@ -1,24 +1,40 @@
+# Security Group Configuration
+resource "aws_security_group" "ansible_security_group" {
+  name        = "ansible-sg"
+  description = "Ansible Security Group"
 
-# Define the provider
-provider "aws" {
-    region = "us-west-2"
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    }
+    egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    }
 }
-
 # Define the instance
 resource "aws_instance" "ansible" {
     ami           = "ami-0c55b159cbfafe1f0"
-    instance_type = "t2.micro"
+    instance_type = "t2.medium"
     key_name      = var.key_pair_name
-    security_groups = ["default"]
+    security_groups = [aws_security_group.ansible_security_group.name]
 
+    tags = {
+        Name = "Ansible"
+    }
     # Define the user data script to install Ansible
     user_data = <<-EOF
-                            #!/bin/bash
-                            apt-get update
-                            apt-get install -y software-properties-common
-                            apt-add-repository --yes --update ppa:ansible/ansible
-                            apt-get install -y ansible
-                            EOF
+            #!/bin/bash
+            apt-get update -y
+            apt-get upgrade -y
+            apt-get install -y software-properties-common
+            apt-add-repository --yes --update ppa:ansible/ansible
+            apt-get install -y ansible
+            EOF
 
     # Use remote-exec provisioner to create ansible user and generate private key
     provisioner "remote-exec" {
@@ -30,27 +46,33 @@ resource "aws_instance" "ansible" {
             "sudo chmod 600 /home/ansible/.ssh/authorized_keys",
             "sudo chown -R ansible:ansible /home/ansible/.ssh",
             "sudo -u ansible ssh-keygen -t rsa -N '' -f /home/ansible/.ssh/id_rsa",
+            "sudo cat /home/ansible/.ssh/id_rsa.pub"
         ]
-    }
 
-    # Use tls_private_key resource to generate private key for ansible user
-    resource "tls_private_key" "ansible" {
-        algorithm = "RSA"
-        rsa_bits  = 4096
-    }
-
-    # Use local_file resource to save private key to local file
-    resource "local_file" "ansible_private_key" {
-        content  = tls_private_key.ansible.private_key_pem
-        filename = "ansible_private_key.pem"
-    }
-
-    # Use null_resource to copy certificate to local directory
-    resource "null_resource" "copy_certificate" {
-        provisioner "local-exec" {
-            command = "echo '${tls_private_key.ansible.private_key_pem}' > ansible_user_key.pem"
+         connection {
+            type        = "ssh"
+            user        = "ubuntu"
+            private_key = file("C:\\Users\\leona\\OneDrive\\Desktop\\Training\\Splunk Engineering\\AWS\\SplunkTraining.pem")
+            host        = self.public_ip
         }
     }
+
+    # Use file provisioner to copy the public key to the local machine
+    # provisioner "file" {
+    #     source      = "/home/ansible/.ssh/id_rsa.pub"
+    #     destination = "ansible_id_rsa.pub"
+
+    #      connection {
+    #         type        = "ssh"
+    #         user        = "ubuntu"
+    #         private_key = file("C:\\Users\\leona\\OneDrive\\Desktop\\Training\\Splunk Engineering\\AWS\\SplunkTraining.pem")
+    #         host        = self.public_ip
+    #     }
+    # }
+    # provisioner "local-exec" {
+    #     command = "scp -i C:\\Users\\leona\\OneDrive\\Desktop\\Training\\Splunk Engineering\\AWS\\SplunkTraining.pem ubuntu@${self.public_ip}:/home/ansible/.ssh/id_rsa.pub ."
+      
+    # }
 }
 
 # Define the output
