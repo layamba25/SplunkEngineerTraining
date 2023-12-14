@@ -18,7 +18,7 @@
 
     - name: Copy deploymentclient.conf to Splunk directory
       copy:
-        src: "/tmp/splunk_deploymentclient_conf/SplunkConfigurations/UniversalForwarder/"
+        src: "/tmp/splunk_deploymentclient_conf/SplunkConfigurations/UniversalForwarder/ta-uf_dc"
         dest: "/opt/splunkforwarder/etc/apps/ta-uf_dc"
         owner: splunk_user
         group: splunk_user
