@@ -83,6 +83,8 @@ resource "aws_instance" "splunk_instances" {
     # cat ${var.ansible_public_key_path} >> /home/splunk_user/.ssh/authorized_keys
     # # chown -R splunk_user:splunk_user /home/splunk_user/.ssh
     # chmod 600 /home/splunk_user/.ssh/authorized_keys
+    chmod 700 /home/splunk_user/.ssh
+    chmod 600 /home/splunk_user/.ssh/authorized_keys
 
         # Add the ansible user's public key to the splunk_user's authorized_keys file
     echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7Z0hGNkkHxNXibipQIk2vEALF9Ey2SvAtg6q3Uu59+BjcN4jg2VdWM1cvVu9/wTsXnwPOlN1E3iMoP5tBW3niTN0aHj4VZCr1XuFRbeKuV05VTCYHqZvrZmNZVoM1SBsbZppNeR7veuhsePMv5ZydX3ggHZJYUYWvJ+wL1yQHoDxp/UqtxqGyJxkc4Z6NQOZ2uPeB7PEooO221mnT+f6iWfEb9Tze4CQD+/5VVMnx5UXQsxFaEzWBkwRt/87ZoCrZqaGpXjM201LC3U+VrHv4DYvzq8ZrIbFeCMX/kJQdE3peKt/8iDT7b8TWUOmCx/FaKQei9v+is5vOC4CVyKdp ansible@ip-172-31-25-15" >> /home/splunk_user/.ssh/authorized_keys

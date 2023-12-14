@@ -16,8 +16,19 @@
 
     - name: Copy deploymentclient.conf to Splunk directory
       copy:
-        src: "/tmp/splunk_deploymentclient_conf/SplunkConfigurations/EnvironmentTypes/Distributed/SingleSite/Splunk Universal Forwarder/deploymentclient.conf"
-        dest: "/opt/splunkforwarder/etc/system/local/deploymentclient.conf"
-        owner: splunk
-        group: splunk
+        src: "/tmp/splunk_deploymentclient_conf/SplunkConfigurations/DeployementServer/deployment-apps"
+        dest: "/opt/splunkforwarder/etc/deployment-apps"
+        owner: splunk_user
+        group: splunk_user
         mode: '0644'
+
+    - name: Copy the serverclass.conf to the apps directory
+      copy:
+        src: "/tmp/splunk_deploymentclient_conf/SplunkConfigurations/DeployementServer/serverclass.conf"
+        dest: "/opt/splunkforwarder/etc/apps"
+        owner: splunk_user
+        group: splunk_user
+        mode: '0644'
+
+    - name: Reload Deployment Server
+      command: "/opt/splunk/bin/splunk reload deploy-server"

@@ -15,7 +15,8 @@ indexer0[1:3].training.nilipay.com
 deploymentserver.training.nilipay.com
 
 [universalforwarder]
-universalforwarder.training.nilipay.com
+#universalforwarder.training.nilipay.com
+3.138.36.49
 
 [licensemaster]
 licensemaster.training.nilipay.com
