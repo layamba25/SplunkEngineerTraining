@@ -17,12 +17,18 @@
         update: yes
 
     - name: Copy deploymentclient.conf to Splunk directory
-      copy:
+      # copy:
+      #   src: "/tmp/splunk_deploymentclient_conf/SplunkConfigurations/UniversalForwarder/ta-uf_dc"
+      #   dest: "/opt/splunkforwarder/etc/apps/ta-uf_dc"
+      #   owner: splunk_user
+      #   group: splunk_user
+      #   mode: '0644'
+      synchronize:
         src: "/tmp/splunk_deploymentclient_conf/SplunkConfigurations/UniversalForwarder/ta-uf_dc"
         dest: "/opt/splunkforwarder/etc/apps/ta-uf_dc"
-        owner: splunk_user
-        group: splunk_user
-        mode: '0644'
+        # owner: splunk_user
+        # group: splunk_user
+        # mode: '0644'
 
     - name: Restart Splunk Forwarder service
       command: "/opt/splunkforwarder/bin/splunk restart"
