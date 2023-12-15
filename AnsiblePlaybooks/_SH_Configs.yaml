@@ -31,6 +31,14 @@
       command: "sudo systemctl restart Splunkd"
       register: splunk_restart
 
+    - name: Print Splunk Status
+      debug:
+        msg: "{{ splunk_restart.stdout_lines }}"
+
     - name: Check Splunk Status service with systemd
       command: "sudo systemctl status Splunkd"
       register: splunk_status
+
+    - name: Print Splunk Status
+      debug:
+        msg: "{{ splunk_status.stdout_lines }}"
