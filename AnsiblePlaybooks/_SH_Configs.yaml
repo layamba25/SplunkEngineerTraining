@@ -19,4 +19,5 @@
       systemd:
         name: Splunkd
         state: restarted
+        sudo: yes
       # command: "sudo systemctl restart Splunkd"
