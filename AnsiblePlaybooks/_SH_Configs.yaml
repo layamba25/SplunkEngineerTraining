@@ -22,8 +22,8 @@
     #     state: status
 
     - name: Restart Splunk service with systemd
-      # become: yes
+      become: yes
       # systemd:
       #   name: Splunkd
       #   state: restarted
-      command: "sudo systemctl restart Splunkd"
+      command: "systemctl restart Splunkd"
