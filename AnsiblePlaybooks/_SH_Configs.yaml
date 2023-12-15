@@ -33,7 +33,7 @@
 
     - name: Print Splunk Status
       debug:
-        msg: "{{ splunk_restart.stdout_lines }}"
+        msg: "{{ splunk_restart.stdout_lines | grep 'Active:' }}"
 
     - name: Check Splunk Status service with systemd
       command: "sudo systemctl status Splunkd"
@@ -41,4 +41,4 @@
 
     - name: Print Splunk Status
       debug:
-        msg: "{{ splunk_status.stdout_lines }}"
+        msg: "{{ splunk_status.stdout_lines | grep 'Active:'}}"
