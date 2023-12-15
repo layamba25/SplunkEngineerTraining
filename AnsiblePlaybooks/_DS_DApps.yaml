@@ -10,25 +10,25 @@
     - name: Clone repository
       git:
         repo: "https://github.com/layamba25/SplunkEngineerTraining"
-        dest: "/tmp/splunk_deploymentclient_conf"
+        dest: "/tmp/SplunkEngineerTraining"
         clone: yes
         update: yes
 
-    - name: Copy deploymentclient.conf to Splunk directory
+    - name: Copy Forwarder Configurations to the deployment-apps directory
       copy:
-        src: "/tmp/splunk_deploymentclient_conf/SplunkConfigurations/DeployementServer/deployment-apps"
+        src: "/tmp/SplunkEngineerTraining/SplunkConfigurations/DeployementServer/deployment-apps"
         dest: "/opt/splunkforwarder/etc/deployment-apps"
         owner: splunk_user
         group: splunk_user
         mode: '0644'
 
-    - name: Copy the serverclass.conf to the apps directory
+    - name: Copy the serverclass.conf and initials configs to the apps directory
       copy:
-        src: "/tmp/splunk_deploymentclient_conf/SplunkConfigurations/DeployementServer/serverclass.conf"
+        src: "/tmp/SplunkEngineerTraining/SplunkConfigurations/DeployementServer/deployment-apps/apps"
         dest: "/opt/splunkforwarder/etc/apps"
         owner: splunk_user
         group: splunk_user
         mode: '0644'
 
     - name: Reload Deployment Server
-      command: "/opt/splunk/bin/splunk reload deploy-server"
+      command: "/opt/splunk/bin/splunk reload deploy-server -auth admin:P@ssword123"

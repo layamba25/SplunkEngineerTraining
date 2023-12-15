@@ -1,0 +1,29 @@
+---
+- name: Deploy Cluster Manager Apps
+  hosts: clustermanager
+  become: yes
+  become_user: splunk_user
+
+  tasks:
+    - name: Ping all hosts
+      ping:
+      
+    - name: Clone repository
+      git:
+        repo: "https://github.com/layamba25/SplunkEngineerTraining"
+        dest: "/tmp/SplunkEngineerTraining"
+        clone: yes
+        update: yes
+    
+    - name: Copy Configurations to Manager Apps directory
+      shell: "cp -r /tmp/SplunkEngineerTraining/SplunkConfigurations/_SingleSite/ManagerNode_Manager_Apps /opt/splunk/etc/manager-apps"
+    
+    - name: Validate Cluster Bundle and check if restart is required
+      shell: "/opt/splunk/bin/splunk validate cluster-bundle -auth admin:P@ssword123"
+      register: cluster_bundle_validation
+      changed_when: false
+      failed_when: false
+      ignore_errors: true
+    
+    - name: Apply Cluster Bundle to Indexers
+      shell: "/opt/splunk/bin/splunk apply cluster-bundle -auth admin:P@ssword123"

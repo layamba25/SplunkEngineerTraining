@@ -1,0 +1,22 @@
+---
+- name: Deploy Cluster Manager Apps to indexers
+  hosts: indexers
+  become: yes
+  become_user: splunk_user
+
+  tasks:
+    - name: Clone repository to /tmp
+      git:
+        repo: "https://github.com/layamba25/SplunkEngineerTraining"
+        dest: "/tmp"
+        clone: yes
+        update: yes
+    
+    - name: Copy Indexer Configurations from /tmp to /opt/splunk/etc/apps directory
+      shell: "cp -r /tmp/SplunkConfigurations/_SingleSite/IndexerClustering/TA-indexers /opt/splunk/etc/apps/TA-indexers"
+    
+    - name: Restart Splunk service with systemd
+      systemd:
+        name: Splunkd
+        state: restarted
+      # command: "sudo systemctl restart Splunkd"

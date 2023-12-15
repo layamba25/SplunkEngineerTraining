@@ -1,0 +1,24 @@
+---
+- name: Deploy Cluster Manager Apps
+  hosts: clustermanager
+  become: yes
+  become_user: splunk_user
+
+  tasks:
+    - name: Clone repository
+      git:
+        repo: "https://github.com/layamba25/SplunkEngineerTraining"
+        dest: "/tmp/SplunkEngineerTraining"
+        clone: yes
+        update: yes
+    
+    - name: Configure your Cluster Manager Node
+      shell: "cp -r /tmp/SplunkEngineerTraining/SplunkConfigurations/_SingleSite/IndexerClustering/TA-manager-node /opt/splunk/etc/apps"
+
+    - name: Restart Splunk service with systemd
+      systemd:
+        name: Splunkd
+        state: restarted
+        sudo: yes
+      # command: "sudo systemctl restart Splunkd"
+ 

@@ -6,23 +6,21 @@
   
 
   tasks:
-    - name: Ping all hosts
-      ping:
-      
     - name: Clone repository
       git:
         repo: "https://github.com/layamba25/SplunkEngineerTraining"
-        dest: "/tmp/splunk_deploymentclient_conf"
+        dest: "/tmp/SplunkEngineerTraining"
         clone: yes
         update: yes
 
-    - name: Copy deploymentclient.conf to Splunk directory
+    - name: Copy deploymentclient app to Splunk directory
       # copy:
-      #   src: "/tmp/splunk_deploymentclient_conf/SplunkConfigurations/UniversalForwarder/ta-uf_dc"
+      #   src: "/tmp/SplunkEngineerTraining/SplunkConfigurations/UniversalForwarder/ta-uf_dc"
       #   dest: "/opt/splunkforwarder/etc/apps/ta-uf_dc"
       #   owner: splunk_user
       #   group: splunk_user
       #   mode: '0644'
-      shell: "cp -r /tmp/splunk_deploymentclient_conf/SplunkConfigurations/UniversalForwarder/ta-uf_dc /opt/splunkforwarder/etc/apps/ta-uf_dc"
+      shell: "cp -r /tmp/SplunkEngineerTraining/SplunkConfigurations/UniversalForwarder/ta-uf_dc /opt/splunkforwarder/etc/apps/ta-uf_dc"
+      
     - name: Restart Splunk Forwarder service
       command: "/opt/splunkforwarder/bin/splunk restart"
