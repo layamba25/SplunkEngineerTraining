@@ -22,12 +22,11 @@
     #     state: status
 
     - name: Restart Splunk service with systemd
-      become_method: su
       # become: yes
       # systemd:
       #   name: Splunkd
       #   state: restarted
-      command: "systemctl restart Splunkd"
+      command: "sudo systemctl restart Splunkd"
 
     - name: Check Splunk Status service with systemd
       command: "sudo systemctl status Splunkd"
