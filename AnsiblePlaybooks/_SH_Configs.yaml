@@ -3,6 +3,8 @@
   hosts: searchheads
   become: yes
   become_user: splunk_user
+  vars_files:
+    - ../vars/vars.yaml
 
   tasks:
     - name: Clone repository to /tmp
@@ -27,6 +29,8 @@
       #   name: Splunkd
       #   state: restarted
       command: "sudo systemctl restart Splunkd"
+      register: splunk_restart
 
     - name: Check Splunk Status service with systemd
       command: "sudo systemctl status Splunkd"
+      register: splunk_status
