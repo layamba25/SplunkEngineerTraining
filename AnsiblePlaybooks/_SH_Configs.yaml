@@ -8,12 +8,12 @@
     - name: Clone repository to /tmp
       git:
         repo: "https://github.com/layamba25/SplunkEngineerTraining"
-        dest: "/tmp"
+        dest: "/tmp/SplunkEngineerTraining"
         clone: yes
         update: yes
     
     - name: Copy Search Head Configurations from /tmp to /opt/splunk/etc/apps directory
-      shell: "cp -r /tmp/SplunkConfigurations/_SingleSite/IndexerClustering/TA-searchheads /opt/splunk/etc/apps/TA-searchheads"
+      shell: "cp -r /tmp/SplunkEngineerTraining/SplunkConfigurations/_SingleSite/IndexerClustering/TA-searchheads /opt/splunk/etc/apps/TA-searchheads"
     
     - name: Restart Splunk service with systemd
       systemd:
