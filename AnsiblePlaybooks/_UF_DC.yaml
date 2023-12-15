@@ -20,7 +20,7 @@
       #   owner: splunk_user
       #   group: splunk_user
       #   mode: '0644'
-      shell: "cp -r /tmp/SplunkEngineerTraining/SplunkConfigurations/UniversalForwarder/TA-uf_dc /opt/splunkforwarder/etc/apps/"
+      shell: "cp -r /tmp/SplunkEngineerTraining/SplunkConfigurations/UniversalForwarder/ta-uf_dc /opt/splunkforwarder/etc/apps/"
       
     - name: Restart Splunk Forwarder service
       command: "/opt/splunkforwarder/bin/splunk restart"
