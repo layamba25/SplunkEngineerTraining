@@ -1,0 +1,10 @@
+searchhead01: searchhead01.training.nilipay.com
+searchhead02: searchhead02.training.nilipay.com
+deployer: deployer.training.nilipay.com
+licenseserver: licensemaster.training.nilipay.com
+clustermaster: clustermaster.training.nilipay.com
+indexer01: indexer01.training.nilipay.com
+indexer02: indexer02.training.nilipay.com
+indexer03: indexer03.training.nilipay.com
+deploymentserver: deploymentserver.training.nilipay.com
+linuxuniversalforwarder01: linuxuniversalforwarder01.training.nilipay.com
