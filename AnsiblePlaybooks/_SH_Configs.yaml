@@ -15,6 +15,12 @@
     - name: Copy Search Head Configurations from /tmp to /opt/splunk/etc/apps directory
       shell: "cp -r /tmp/SplunkEngineerTraining/SplunkConfigurations/_SingleSite/IndexerClustering/TA-searchheads /opt/splunk/etc/apps/TA-searchheads"
     
+    - name: Check Splunk Status service with systemd
+      become: yes
+      systemd:
+        name: Splunkd
+        state: status
+
     - name: Restart Splunk service with systemd
       become: yes
       systemd:
