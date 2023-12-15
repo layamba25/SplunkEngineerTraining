@@ -16,6 +16,7 @@
       shell: "cp -r /tmp/SplunkEngineerTraining/SplunkConfigurations/_SingleSite/IndexerClustering/TA-searchheads /opt/splunk/etc/apps/TA-searchheads"
     
     - name: Restart Splunk service with systemd
+      become: yes
       systemd:
         name: Splunkd
         state: restarted
