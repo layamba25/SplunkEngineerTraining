@@ -1,2 +1,7 @@
 ---
-# vars file for indexers
+general:
+  site: site2
+
+clustering:
+  mode: peer
+  replication_port: 9998

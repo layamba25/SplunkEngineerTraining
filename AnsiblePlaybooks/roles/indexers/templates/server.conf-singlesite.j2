@@ -1,0 +1,7 @@
+[clustering]
+mode = {{ clustering.mode | default('peer') }}
+# Replace IP with IP of Cluster Manager
+manager_uri = https://{{ clustering.manager_uri }}:8089
+pass4SymmKey = {{ clustering.pass4SymmKey }}
+
+[replication_port://{{ clustering.replication_port | default('9998') }}]

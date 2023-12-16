@@ -1,0 +1,7 @@
+[clustering]
+mode = {{ clustering.mode | default('manager') }}
+replication_factor = {{ clustering.replication_factor | default(2) }}
+pass4SymmKey = {{ clustering.pass4SymmKey }}
+search_factor = {{ clustering.search_factor | default(2) }}
+cluster_label = {{ clustering.cluster_label | default('splunk_training01') }}
+multisite = {{ clustering.multisite | default('false') }}

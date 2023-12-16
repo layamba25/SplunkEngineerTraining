@@ -1,0 +1,19 @@
+[general]
+site = {{ general.site | default('site1') }}
+
+[clustering]
+mode = {{ clustering.mode | default('manager') }}
+# Uncomment the following lines if these values are defined
+{% if clustering.replication_factor is defined %}
+replication_factor = {{ clustering.replication_factor }}
+{% endif %}
+pass4SymmKey = {{ clustering.pass4SymmKey }}
+{% if clustering.search_factor is defined %}
+search_factor = {{ clustering.search_factor }}
+{% endif %}
+cluster_label = {{ clustering.cluster_label | default('splunk_training01') }}
+
+multisite={{ clustering.multisite | default('true') }}
+available_sites = {{ clustering.available_sites | join(',') }}
+site_replication_factor = {{ clustering.site_replication_factor }}
+site_search_factor = {{ clustering.site_search_factor }}
