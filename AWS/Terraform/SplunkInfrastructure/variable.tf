@@ -40,7 +40,7 @@
  variable "ansible_public_key_path" {
    description = "Path to the Ansible public key file"
    # Replace with your own ansible key pair path
-   default     =  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7Z0hGNkkHxNXibipQIk2vEALF9Ey2SvAtg6q3Uu59+BjcN4jg2VdWM1cvVu9/wTsXnwPOlN1E3iMoP5tBW3niTN0aHj4VZCr1XuFRbeKuV05VTCYHqZvrZmNZVoM1SBsbZppNeR7veuhsePMv5ZydX3ggHZJYUYWvJ+wL1yQHoDxp/UqtxqGyJxkc4Z6NQOZ2uPeB7PEooO221mnT+f6iWfEb9Tze4CQD+/5VVMnx5UXQsxFaEzWBkwRt/87ZoCrZqaGpXjM201LC3U+VrHv4DYvzq8ZrIbFeCMX/kJQdE3peKt/8iDT7b8TWUOmCx/FaKQei9v+is5vOC4CVyKdp ansible@ip-172-31-25-15"
+   default     =  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCahwnyOX6ofOedrAnjORU8AarbAgZ7c/644YbuwutHVtSS+5dsXTgg8V/3fZsTdI8YmDFnfXikJbF8v5oh8Q1heZUKr2UysaEla8JxYw16kIu4ZpRHN3/JJQcYT9w14OqtW/AB6DQlWqLqU8T13dJY/a0EdqmMlHiCeQFdu2YcSouiCxS0MYT0R39fulnP9GuEA1kSZ4jl8yyuQLhqCf5UTrBmaqJWCn1Q5nrox3ed0HZSSGOeYmryRUdn3f8tG4MvJcpGpkDhZisz8nwdCXOe2yak4CeL2x7IOCd4rIOeYUvoLaFp2kN42PH8js9xlnDFAp8CKDtnzsq2iMyAhJ6P ansible@ip-172-31-17-102"
 
  }
 
@@ -52,8 +52,8 @@ variable "ssh_key_path" {
 }
  variable "instance_count" {
    description = "Number of EC2 instances to create"
-   default     = 11
-    # default = 1
+  #  default     = 11
+    default = 3
  }
 
 
@@ -140,7 +140,7 @@ variable "ssh_key_path" {
 variable "tailscale_authKey" {
   description = "Tailscale Auth Key"
   # default     = "tskey-auth-knCJ6g7CNTRL-9RzpqSxDoGcKttY8bniMHckS8ZDMLVWZZ"
-  default = "tskey-auth-kH47tD2CNTRL-je7o5NFLVZY7QqzkPBwwYYXJDJfUQfntP"
+  default = "tskey-client-kfDrAR7CNTRL-CtyHJLY5kANctF7tKwsEANFVTisAcF9qH"
 }
 
 variable "tailscale_advertiseTags" {
