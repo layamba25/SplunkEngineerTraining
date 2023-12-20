@@ -140,7 +140,8 @@ variable "ssh_key_path" {
 variable "tailscale_authKey" {
   description = "Tailscale Auth Key"
   # default     = "tskey-auth-knCJ6g7CNTRL-9RzpqSxDoGcKttY8bniMHckS8ZDMLVWZZ"
-  default = "tskey-client-kfDrAR7CNTRL-CtyHJLY5kANctF7tKwsEANFVTisAcF9qH"
+  # default = "tskey-auth-kc34eR5CNTRL-wwhD2ddtzgRuANBykwUegRZyxwADyoGWN"
+  default = "tskey-auth-kxLUMS4CNTRL-8NCWuVFCuQdWXi7oKdMRRdKuwAFBT3uWj"
 }
 
 variable "tailscale_advertiseTags" {

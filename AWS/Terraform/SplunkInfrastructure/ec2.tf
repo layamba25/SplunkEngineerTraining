@@ -74,7 +74,7 @@ resource "aws_instance" "splunk_instances" {
     # Install Tailscale
     curl -fsSL https://tailscale.com/install.sh | sh
     # tailscale up --ssh --authkey="tskey-auth-knCJ6g7CNTRL-9RzpqSxDoGcKttY8bniMHckS8ZDMLVWZZ" --advertise-tags="${var.tailscale_advertiseTags}"
-    tailscale up --authkey="${var.tailscale_authKey}" --ssh --advertise-tags="${var.tailscale_advertiseTags}"
+    tailscale up --authkey="${var.tailscale_authKey}" --ssh --reset --advertise-tags="${var.tailscale_advertiseTags}"
 
     # Generate SSH key pair for the splunk_user
     # sudo -u splunk_user ssh-keygen -t rsa -b 4096 -C 'splunk_user' -f /home/splunk_user/.ssh/id_rsa -N ''
