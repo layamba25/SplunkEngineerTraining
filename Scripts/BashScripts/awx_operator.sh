@@ -73,12 +73,13 @@ install_awx_debian() {
     apt-get update -y
     apt upgrade -y
     apt-get install -y docker-ce
+    apt  install docker.io -y
 
     # Step 5: Install docker-compose
     echo "============installing docker-compose==========="
-    apt-get install -y python3-pip
-    pip3 install docker-compose
-    apt-get install -y conntrack crictl socat
+        apt-get install -y python3-pip
+        pip3 install docker-compose
+        apt-get install -y conntrack crictl socat
 
     # Step 6: Install Minikube
     echo "============installing minikube==========="
@@ -106,7 +107,34 @@ install_awx_debian() {
     # alias kubectl="minikube kubectl --"
 
 
-}
+    # # Step 7: Configure Ingress Controller for Minikube
+    # echo "============configuring ingress controller==========="
+    # minikube addons enable ingress
+    # kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/cloud/deploy.yaml
+    # # kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/baremetal/deploy.yaml
+
+    # # Step 8: Install Helm
+    # echo "============installing helm==========="
+    # curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+    # # Step 9: Install AWX
+    # echo "============installing awx==========="
+    # helm repo add awx https://charts.bitnami.com/bitnami
+    # helm repo update
+
+    # # Step 10: Create a namespace
+    # echo "============creating namespace==========="
+    # kubectl create namespace awx
+
+    # # Step 11: Install AWX
+    # echo "============installing awx==========="
+
+
+    # # Step 12: Get an save the admin password
+    # echo "============getting admin password==========="
+    # kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode > /var/log/admin_password.txt
+
+
 
 # Install git and clone the AWX repository
 install_common_packages() {

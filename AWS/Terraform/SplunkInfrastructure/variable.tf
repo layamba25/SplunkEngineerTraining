@@ -40,7 +40,7 @@
  variable "ansible_public_key_path" {
    description = "Path to the Ansible public key file"
    # Replace with your own ansible key pair path
-   default     =  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCahwnyOX6ofOedrAnjORU8AarbAgZ7c/644YbuwutHVtSS+5dsXTgg8V/3fZsTdI8YmDFnfXikJbF8v5oh8Q1heZUKr2UysaEla8JxYw16kIu4ZpRHN3/JJQcYT9w14OqtW/AB6DQlWqLqU8T13dJY/a0EdqmMlHiCeQFdu2YcSouiCxS0MYT0R39fulnP9GuEA1kSZ4jl8yyuQLhqCf5UTrBmaqJWCn1Q5nrox3ed0HZSSGOeYmryRUdn3f8tG4MvJcpGpkDhZisz8nwdCXOe2yak4CeL2x7IOCd4rIOeYUvoLaFp2kN42PH8js9xlnDFAp8CKDtnzsq2iMyAhJ6P ansible@ip-172-31-17-102"
+   default     =  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSMKA0hpAlJBJPaM92LMjSfoUjZ3SxJzqtMLF3Y9WWbO3yyJR5bAtVZnpR/R3V/V62TsbminyNXlaXsS7fy44VolvkVbdIqBJhTMN7rtBNY16ol3Q7j6npoLIF9z20EMbAqYINR7xln9wbJkTIVhskWDiojOTtbEMzrjBWm5pJB7vAW7Pdjwq2AvEW98H2GUgoZy7QFYQc3In0FFf5knEbR1XWATbk7xNnwzhfvfpwSYQj2Vhtm3Gs8tYkOdBeVrNxGcGCEnIBbZu6x//p7B7g3Zr4AC4c8Yt1HYM0DR3GIWfqP5MkGEVzLPGvpWlrA5gsB87FG/yjBr7cTk5EE0E7 ansible@ip-172-31-26-89"
 
  }
 
@@ -53,7 +53,7 @@ variable "ssh_key_path" {
  variable "instance_count" {
    description = "Number of EC2 instances to create"
   #  default     = 11
-    default = 3
+    default = 2
  }
 
 
