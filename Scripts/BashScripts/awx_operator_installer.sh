@@ -56,7 +56,8 @@ install_awx_rhel() {
 install_awx_debian() {
     # Step 1: Update package list and install prerequisites
     echo "============installing prerequisites==========="
-    apt-get update
+    apt-get update -y
+    apt-get upgrade -y
     apt-get install -y debian-goodies
     apt-get install -y apt-transport-https ca-certificates curl software-properties-common
 
@@ -70,24 +71,30 @@ install_awx_debian() {
 
     # Step 4: Install Docker CE
     echo "============installing docker ce==========="
-    apt-get update -y
-    apt upgrade -y
     apt-get install -y docker-ce
-    apt  install docker.io -y
+    apt-get  install docker.io -y
 
     # Step 5: Install docker-compose
     echo "============installing docker-compose==========="
-        apt-get install -y python3-pip
-        pip3 install docker-compose
-        apt-get install -y conntrack crictl socat
+    apt-get install -y python3-pip
+    pip3 install docker-compose
 
-    # Step 6: Install Minikube
-    echo "============installing minikube==========="
-    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-    sudo install minikube-linux-amd64 /usr/local/bin/minikube
-    minikube start --cpus=2 --memory=2g --addons=ingress --driver=docker --force
-    alias kubectl="minikube kubectl --"
-    kubectl apply -k .
+    # Step 6: Install Ranger and Kustomize
+    echo "============installing Ranger==========="
+    curl -sfL https://get.k3s.io | sh -
+    kubectl version
+
+    # Install Kustomize
+    echo "============installing Kustomize==========="
+    curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+    mv kustomize /usr/local/bin/
+
+    # Run Kustomize file
+    echo "============running kustomize file==========="
+    kustomize build . | kubectl apply -f -
+    kubectl get pods -n awx
+
+
 
     # Step 7: Check Pods
     echo "============checking pods==========="
@@ -98,43 +105,7 @@ install_awx_debian() {
     echo "============getting admin password==========="
     kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode > /var/log/admin_password.txt
 }
-    # curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-    # sudo dpkg -i minikube_latest_amd64.deb
-    # wget https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.26.0/crictl-v1.26.0-linux-amd64.tar.gz
-    # # minikube start docker --force
-    # minikube start --cpus=4 --memory=6g --addons=ingress --driver=docker --force
-    # minikube kubectl -- get pods -A
-    # alias kubectl="minikube kubectl --"
-
-
-    # # Step 7: Configure Ingress Controller for Minikube
-    # echo "============configuring ingress controller==========="
-    # minikube addons enable ingress
-    # kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/cloud/deploy.yaml
-    # # kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/baremetal/deploy.yaml
-
-    # # Step 8: Install Helm
-    # echo "============installing helm==========="
-    # curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-
-    # # Step 9: Install AWX
-    # echo "============installing awx==========="
-    # helm repo add awx https://charts.bitnami.com/bitnami
-    # helm repo update
-
-    # # Step 10: Create a namespace
-    # echo "============creating namespace==========="
-    # kubectl create namespace awx
-
-    # # Step 11: Install AWX
-    # echo "============installing awx==========="
-
-
-    # # Step 12: Get an save the admin password
-    # echo "============getting admin password==========="
-    # kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode > /var/log/admin_password.txt
-
-
+   
 
 # Install git and clone the AWX repository
 install_common_packages() {
@@ -161,8 +132,6 @@ install_common_packages() {
         apt install -y make
     fi
 
-    # Basic install
-    #Reference https://cloudinfrastructureservices.co.uk/how-to-install-ansible-awx-using-docker-compose-awx-container-20-04/
    
    
 }

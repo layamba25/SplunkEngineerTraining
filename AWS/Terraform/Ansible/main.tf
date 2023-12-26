@@ -32,6 +32,11 @@ resource "aws_instance" "ansible" {
     key_name      = var.key_pair_name
     security_groups = [aws_security_group.ansible_security_group.name]
 
+    # Define storage 
+    root_block_device {
+        volume_size = 20
+        volume_type = "gp2"
+    }
     tags = {
         Name = "Ansible"
     }
@@ -43,6 +48,15 @@ resource "aws_instance" "ansible" {
             apt-get install -y software-properties-common
             apt-add-repository --yes --update ppa:ansible/ansible
             apt-get install -y ansible
+
+            
+            yum install -y git
+            git clone https://github.com/layamba25/SplunkEngineerTraining.git
+            cd SplunkEngineerTraining/Scripts/BashScripts
+            # chmod +x awx_installer.sh
+            # ./awx_installer.sh
+            chmod +x awx_operator_installer.sh
+            ./awx_operator_installer.sh
             EOF
 
     # Use remote-exec provisioner to create ansible user and generate private key
@@ -56,7 +70,8 @@ resource "aws_instance" "ansible" {
             "sudo chmod 600 /home/ansible/.ssh/authorized_keys",
             "sudo chown -R ansible:ansible /home/ansible/.ssh",
             "sudo -u ansible ssh-keygen -t rsa -N '' -f /home/ansible/.ssh/id_rsa",
-            "sudo cat /home/ansible/.ssh/id_rsa.pub"
+            "sudo cat /home/ansible/.ssh/id_rsa.pub",
+            "sudo chown -R ansible:ansible /etc/rancher",
         ]
 
          connection {
@@ -67,22 +82,6 @@ resource "aws_instance" "ansible" {
         }
     }
 
-    # Use file provisioner to copy the public key to the local machine
-    # provisioner "file" {
-    #     source      = "/home/ansible/.ssh/id_rsa.pub"
-    #     destination = "ansible_id_rsa.pub"
-
-    #      connection {
-    #         type        = "ssh"
-    #         user        = "ubuntu"
-    #         private_key = file("C:\\Users\\leona\\OneDrive\\Desktop\\Training\\Splunk Engineering\\AWS\\SplunkTraining.pem")
-    #         host        = self.public_ip
-    #     }
-    # }
-    # provisioner "local-exec" {
-    #     command = "scp -i C:\\Users\\leona\\OneDrive\\Desktop\\Training\\Splunk Engineering\\AWS\\SplunkTraining.pem ubuntu@${self.public_ip}:/home/ansible/.ssh/id_rsa.pub ."
-      
-    # }
 }
 
 # Define the output

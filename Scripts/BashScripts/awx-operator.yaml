@@ -1,0 +1,27 @@
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx-operator
+spec:
+  service_type: nodeport
+  # ingress_type: ingress
+  nodeport_port: 30080
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   annotations:
+#     spec.ingressClassName: ambassador
+#   name: awx
+# spec:
+#   rules:
+#     - http:
+#         paths:
+#           - pathType: Prefix
+#             path: /
+#             backend:
+#               service:
+#                 name: awx-operator-service
+#                 port:
+#                   number: 80

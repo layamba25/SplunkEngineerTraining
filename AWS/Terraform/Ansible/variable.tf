@@ -15,5 +15,5 @@ variable "key_pair_path" {
 variable "awx_ports" {
   description = "List of ports to open for AWX"
   type        = list(number)
-  default     = [80, 443, 8052, 9990, 8443 ]  
+  default     = [80, 443, 30080]  
 }

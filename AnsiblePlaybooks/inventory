@@ -16,7 +16,7 @@ deploymentserver.training.nilipay.com
 
 [universalforwarder]
 linuxuniversalforwarder.training.nilipay.com
-# 3.145.183.171
 
-[licensemaster]
-licensemaster.training.nilipay.com
+
+[license-server]
+license-server.training.nilipay.com
