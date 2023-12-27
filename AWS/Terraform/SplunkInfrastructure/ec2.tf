@@ -12,6 +12,12 @@ resource "aws_security_group" "my_security_group" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+  }
+
    dynamic "ingress" {
     for_each = var.splunk_ports
     content {

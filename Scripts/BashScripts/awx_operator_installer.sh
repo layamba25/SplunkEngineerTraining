@@ -8,6 +8,9 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
+useradd -m -s /bin/bash ansible
+echo 'ansible ALL=(ALL:ALL) NOPASSWD: ALL' >> /etc/sudoers.d/ansible-sudoers
+
 # Function to install AWX on RHEL/CentOS
 install_awx_rhel() {
     # Step 1: Install EPEL repository
@@ -40,11 +43,11 @@ install_awx_rhel() {
      # Step 5: Check Pods
     echo "============checking pods==========="
     kubectl get pods -n awx
-    kubectl config set-context --current --namespace=awx
+    # kubectl config set-context --current --namespace=awx
 
     # Step 6: Get an save the admin password
     echo "============getting admin password==========="
-    kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode > /var/log/admin_password.txt
+    kubectl get secret awx-operator-admin-password -o jsonpath="{.data.password}" | base64 --decode > /var/log/admin_password.txt
 
     # Step 7: Configure Ingress Controller for Minikube
     echo "============configuring ingress controller==========="
@@ -60,7 +63,7 @@ install_awx_debian() {
     apt-get upgrade -y
     apt-get install -y debian-goodies
     apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-
+    
     # Step 2: Add Docker’s official GPG key
     echo "============adding docker gpg key==========="
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
@@ -92,18 +95,22 @@ install_awx_debian() {
     # Run Kustomize file
     echo "============running kustomize file==========="
     kustomize build . | kubectl apply -f -
-    kubectl get pods -n awx
+    kubectl get pods -n awx-operator
+    sleep 20
+    kustomize build . | kubectl apply -f -
+    sleep 20
+    kubectl get pods -n awx-operator
 
 
 
-    # Step 7: Check Pods
-    echo "============checking pods==========="
-    kubectl get pods -n awx
-    kubectl config set-context --current --namespace=awx
+    # # Step 7: Check Pods
+    # echo "============checking pods==========="
+    # kubectl get pods -n awx-operator
+    # kubectl config set-context --current --namespace=awx-operator
 
       # Step 6: Get an save the admin password
     echo "============getting admin password==========="
-    kubectl get secret awx-admin-password -o jsonpath="{.data.password}" | base64 --decode > /var/log/admin_password.txt
+    kubectl get secret awx-operator-admin-password -o jsonpath="{.data.password}" --namespace awx-operator | base64 --decode > /var/log/admin_password.txt
 }
    
 
@@ -150,5 +157,8 @@ else
     exit 1
 fi
 
+
+sudo chown -R ansible:ansible /etc/rancher
+sudo chown -R ansible:ansible /var/lib/rancher
 
 echo "============AWX installation complete. ==========="
