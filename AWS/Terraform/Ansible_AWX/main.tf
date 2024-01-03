@@ -3,6 +3,10 @@ resource "aws_security_group" "ansible_security_group" {
   name        = "ansible-sg"
   description = "Ansible Security Group"
 
+  tags = {
+    Name = "Ansible Security Group"
+  }
+  
   ingress {
     from_port   = 22
     to_port     = 22

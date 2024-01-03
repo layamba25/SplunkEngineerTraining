@@ -129,7 +129,7 @@ variable "ssh_key_path" {
 
  variable "splunk_ports" {
    type        = list(number)
-   default = ["8000", "8089", "9997", "8088", "9998", "80","443"]
+   default = ["8000", "8089", "9997", "8088", "9998", "80","443", "514"]
  }
 
  variable "splunk_download" {

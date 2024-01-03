@@ -34,6 +34,10 @@ resource "aws_security_group" "my_security_group" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "Splunk Security Group"
+  }
 }
 
 # # EC2 Instance Configuration
