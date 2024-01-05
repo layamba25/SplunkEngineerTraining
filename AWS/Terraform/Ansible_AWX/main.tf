@@ -32,7 +32,7 @@ resource "aws_security_group" "ansible_security_group" {
 # Define the instance
 resource "aws_instance" "ansible" {
     ami           = "ami-0c55b159cbfafe1f0"
-    instance_type = "t2.large"
+    instance_type = "t2.medium"
     key_name      = var.key_pair_name
     security_groups = [aws_security_group.ansible_security_group.name]
 
