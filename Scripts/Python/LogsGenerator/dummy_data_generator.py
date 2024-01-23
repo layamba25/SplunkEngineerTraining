@@ -18,6 +18,8 @@ class LogGenerator:
         5: PaloAltoThreatLog,
         6: PaloAltoTrafficLog,
         7: PaloAltoSystemLog,
+        8: WebLog,
+        9: AccessLog,
 
     }
 
