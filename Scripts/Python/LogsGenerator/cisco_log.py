@@ -1,6 +1,20 @@
+import datetime
+import socket
 from faker import Faker
 
 fake = Faker()
+
+def create_syslog_header(app_name):
+    prival = 22  # Example value, should be calculated based on facility and severity
+    version = 1
+    timestamp = datetime.datetime.now().isoformat()
+    hostname = socket.gethostname()  # Or a specific hostname if known
+    procid = "-"
+    msgid = "-"
+
+    syslog_header = f"<{prival}>{version} {timestamp} {hostname} {app_name} {procid} {msgid}"
+    return syslog_header
+
 class CiscoESTreamerLog:
     def __init__(self, dstip, dstport):
         self.fake = Faker()
@@ -8,6 +22,7 @@ class CiscoESTreamerLog:
         self.dstport = dstport
 
     def generate_log(self):
+        syslog_header = create_syslog_header("CiscoESTreamer")
         fields = [
             fake.iso8601(), # Event Time
             fake.random_int(min=1, max=1000), # Event ID
@@ -21,7 +36,8 @@ class CiscoESTreamerLog:
             fake.random_element(elements=('Low', 'Medium', 'High', 'Critical')), # Impact Level
             fake.sentence(nb_words=6), # Description..
         ]
-        return " ".join(fields)
+        msg = " ".join(fields)
+        return f"{syslog_header} - {msg}"
 
 class CiscoISELog:
     def __init__(self, dstip, dstport):
@@ -30,6 +46,7 @@ class CiscoISELog:
         self.dstport = dstport
 
     def generate_log(self):
+        syslog_header = create_syslog_header("CiscoISE")
         fields = [
             fake.date(pattern="%Y-%m-%d %H:%M:%S"), #Timestamp
             fake.random_element(elements=('Passed-Authentication', 'Failed-Attempt', 'Endpoint-Profiled', 'Endpoint-Updated')), #Event Type
@@ -44,7 +61,8 @@ class CiscoISELog:
             "NAS-Port=", str(fake.random_int(min=1, max=65535)), #NAS Port
             "RADIUS-Response=", fake.random_element(elements=('Access-Accept', 'Access-Reject', 'Access-Challenge')) #RADIUS Response
         ]
-        return " ".join(fields)
+        msg = " ".join(fields)
+        return f"{syslog_header} - {msg}"
 
 class CiscoASALog:
     def __init__(self, dstip, dstport):
@@ -53,6 +71,7 @@ class CiscoASALog:
         self.dstport = dstport
 
     def generate_log(self):
+        syslog_header = create_syslog_header("CiscoASA")
         fields = [
             "%ASA-", #Cisco ASA keyword
             str(fake.random_number(digits=1)), #Severity level
@@ -67,4 +86,5 @@ class CiscoASALog:
             fake.ipv4(), #Device IP
             fake.text(max_nb_chars=50) #Description
         ]
-        return " ".join(fields)
+        msg = " ".join(fields)
+        return f"{syslog_header} - {msg}"

@@ -6,13 +6,19 @@ from ipaddress import ip_address
 
 from fortigate_log import FortiGateFWLog
 from cisco_log import CiscoESTreamerLog, CiscoISELog, CiscoASALog
+from palo_log import PaloAltoThreatLog, PaloAltoTrafficLog, PaloAltoSystemLog
+from web_log import WebLog, AccessLog
 
 class LogGenerator:
     LOG_TYPES = {
         1: FortiGateFWLog,
         2: CiscoESTreamerLog,
         3: CiscoISELog,
-        4: CiscoASALog
+        4: CiscoASALog,
+        5: PaloAltoThreatLog,
+        6: PaloAltoTrafficLog,
+        7: PaloAltoSystemLog,
+
     }
 
     def __init__(self, dstip, dstport, protocol, selected_logs):
