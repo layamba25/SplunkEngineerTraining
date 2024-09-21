@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: awx-ingress
+  namespace: awx
+spec:
+  rules:
+    - host: awx.nilipay.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: awx-service
+                port:
+                  number: 80
+  # tls:
+  #   - secretName: awx-ingress-tls
+  #     hosts:
+  #       - awx.nilipay.com

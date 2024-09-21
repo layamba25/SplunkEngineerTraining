@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: awx-operator
+  namespace: awx
+  labels:
+    app: awx-operator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: awx-operator
+  template:
+    metadata:
+      labels:
+        app: awx-operator
+    spec:
+      tolerations:
+        - key: "eks.amazonaws.com/compute-type"
+          operator: "Equal"
+          value: "fargate"
+          effect: "NoSchedule"
+      containers:
+        - name: awx-operator
+          image: quay.io/ansible/awx-operator:2.19.1
+          resources:
+            requests:
+              cpu: "2"
+              memory: "2Gi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
+          env:
+            - name: ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: awx-admin-password
+                  key: admin_password
+            - name: DATABASE_HOST
+              value: awx-postgres.awx.svc.cluster.local
+            - name: DATABASE_NAME
+              value: awx
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: awx-postgres-config
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: awx-postgres-config
+                  key: password
+            - name: REDIS_HOST
+              value: awx-redis-master.awx.svc.cluster.local
+            - name: REDIS_PORT
+              value: "6379"

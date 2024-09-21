@@ -1,0 +1,226 @@
+# AWX:
+#   enabled: true # Enable the AWX deployment
+#   name: awx
+#   spec:
+#     admin_user: admin # Username for the admin account
+#     admin_password_secret: awx-admin-password # Secret name where the admin password is stored
+#     projects_persistence: true # Enable persistent storage for projects
+#     projects_storage_class: standard # Storage class to use for projects
+#     projects_storage_size: 10Gi # Size of the PersistentVolumeClaim for projects
+#     postgres_configuration_secret: awx-postgres-config # Secret name where the PostgreSQL config is stored
+#     secret_key_secret: awx-secret-key # Secret name where the secret key for encryption is stored
+#     postgres_storage_class: postgres-storage-class # Storage class for PostgreSQL PVC
+#     postgres_storage_requirements:
+#       requests:
+#         storage: 8Gi # Storage request for PostgreSQL PVC
+#     replicas: 2 # Number of replicas for high availability
+
+#   postgres:
+#     enabled: true # Enable external PostgreSQL
+#     host: postgres.awx.svc.cluster.local # Hostname of the PostgreSQL service
+#     port: 5432 # Port for PostgreSQL
+#     dbName: awx # Name of the database
+#     username: awxuser # Username for the database
+#     password: # This should be passed securely at runtime
+#     sslmode: disable # SSL mode for the database connection
+#     type: unmanaged # Unmanaged external PostgreSQL
+
+#   customSecrets:
+#     enabled: true # Enable custom secrets
+#     admin:
+#       enabled: true
+#       password: supersecurepassword # Admin password (recommend passing this securely at runtime)
+#       secretName: awx-admin-password
+#     secretKey:
+#       enabled: true
+#       key: supersecurekey # Secret key for database encryption
+#       secretName: awx-secret-key
+#     # ingressTls:
+#     #   enabled: true
+#     #   selfSignedCert: true # Enable self-signed TLS certificate
+#     #   secretName: awx-ingress-tls
+#     # ldap:
+#     #   enabled: true
+#     #   password: yourldapdnpassword # LDAP BIND DN password
+#     #   secretName: awx-ldap-password
+#     # bundleCacert:
+#     #   enabled: true
+#     #   crt: <contentofmybundlecacrt> # CA certificate bundle for LDAP
+
+#   customVolumes:
+#     postgres:
+#       enabled: true
+#       hostPath: /data/postgres-13
+#       size: 10Gi # Size of the volume for PostgreSQL
+#     projects:
+#       enabled: true
+#       hostPath: /data/projects
+#       size: 10Gi # Size of the volume for project files
+
+#   extraDeploy:
+#     - |
+#       apiVersion: external-secrets.io/v1beta1
+#       kind: ExternalSecret
+#       metadata:
+#         name: awx-postgres-secret
+#         namespace: awx
+#       spec:
+#         secretStoreRef:
+#           name: vault
+#           kind: ClusterSecretStore
+#         refreshInterval: "1h"
+#         target:
+#           name: postgres-configuration-secret
+#           creationPolicy: "Owner"
+#           deletionPolicy: "Delete"
+#         dataFrom:
+#           - extract:
+#               key: awx/postgres-configuration-secret
+
+#     - apiVersion: external-secrets.io/v1beta1
+#       kind: ExternalSecret
+#       metadata:
+#         name: awx-ldap-secret
+#         namespace: awx
+#       spec:
+#         secretStoreRef:
+#           name: vault
+#           kind: ClusterSecretStore
+#         refreshInterval: "1h"
+#         target:
+#           name: ldap-configuration-secret
+#           creationPolicy: "Owner"
+#           deletionPolicy: "Delete"
+#         dataFrom:
+#           - extract:
+#               key: awx/ldap-configuration-secret
+
+#   ingress:
+#     enabled: true
+#     class_name: nginx
+#     hosts:
+#       - hostname: awx.nilipay.com
+#         tls_secret: awx-ingress-tls
+
+#   resources:
+#     requests:
+#       cpu: 500m
+#       memory: 1Gi
+#     limits:
+#       cpu: 1
+#       memory: 2Gi
+
+#   nodeSelector: {}
+#   tolerations: []
+#   affinity: {}
+
+# # External PostgreSQL configurations
+# externalPostgres:
+#   host: "postgres.example.com"
+#   port: 5432
+#   username: "awxuser"
+#   password: "awxpassword" # Use a secure method to provide the password
+#   database: "awx"
+
+# # Resource configurations for AWX, PostgreSQL, and Redis
+# resources:
+#   awx:
+#     requests:
+#       cpu: 500m
+#       memory: 1Gi
+#     limits:
+#       cpu: 1
+#       memory: 2Gi
+#   postgres:
+#     requests:
+#       cpu: 250m
+#       memory: 512Mi
+#     limits:
+#       cpu: 500m
+#       memory: 1Gi
+#   redis:
+#     requests:
+#       cpu: 100m
+#       memory: 256Mi
+#     limits:
+#       cpu: 200m
+#       memory: 512Mi
+
+# # Annotations for various components
+# annotations:
+#   service: {}
+#   ingress: {}
+#   pod: {}
+
+# # Miscellaneous configurations
+# autoUpgrade: true
+# garbageCollectSecrets: true
+
+AWX:
+  enabled: true # Enable the AWX deployment
+  name: awx
+  spec:
+    admin_user: admin # Username for the admin account
+    admin_password_secret: awx-admin-password # Secret name where the admin password is stored
+    projects_persistence: true # Enable persistent storage for projects
+    projects_storage_size: 10Gi # Size of the PersistentVolumeClaim for projects
+    postgres_configuration_secret: awx-postgres-config # Secret name where the PostgreSQL config is stored
+    replicas: 1 # Single replica for basic deployment
+
+  postgres:
+    enabled: true # Enable external PostgreSQL
+    host: postgres.awx.svc.cluster.local # Hostname of the PostgreSQL service
+    port: 5432 # Port for PostgreSQL
+    dbName: awx # Name of the database
+    username: awxuser # Username for the database
+    password: # This should be passed securely at runtime
+    sslmode: disable # SSL mode for the database connection
+    type: unmanaged # Unmanaged external PostgreSQL
+
+  customSecrets:
+    enabled: true # Enable custom secrets
+    admin:
+      enabled: true
+      password: supersecurepassword # Admin password (recommend passing this securely at runtime)
+      secretName: awx-admin-password
+    secretKey:
+      enabled: true
+      key: supersecurekey # Secret key for database encryption
+      secretName: awx-secret-key
+
+  customVolumes:
+    postgres:
+      enabled: true
+      size: 10Gi # Size of the volume for PostgreSQL
+    projects:
+      enabled: true
+      size: 10Gi # Size of the volume for project files
+
+  ingress:
+    enabled: true
+    class_name: nginx
+    hosts:
+      - hostname: awx.nilipay.com
+        tls_secret: awx-ingress-tls
+
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 1
+      memory: 2Gi
+
+# Resource configurations for AWX, PostgreSQL, and Redis
+resources:
+  awx:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 1
+      memory: 2Gi
+
+# Miscellaneous configurations
+autoUpgrade: true
+garbageCollectSecrets: true

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: awx-redis-master
+  namespace: awx
+spec:
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    app: awx-redis
+  clusterIP: None

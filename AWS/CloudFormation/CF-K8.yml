@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Resources:
+  MyEksCluster:
+    Type: AWS::EKS::Cluster
+    Properties:
+      Name: MyClusterName
+      Version: "1.21"
+      RoleArn: arn:aws:iam::123456789012:role/MyEksClusterRole
+      ResourcesVpcConfig:
+        SubnetIds:
+          - subnet-12345678
+          - subnet-23456789
+        SecurityGroupIds:
+          - sg-12345678
+      Logging:
+        ClusterLogging:
+          - Types:
+              - api
+              - audit
+              - authenticator
+              - controllerManager
+              - scheduler
+            Enabled: true
